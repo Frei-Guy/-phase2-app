@@ -4,41 +4,173 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Phase 2</title>
 <style>
-body{background:#0b1220;color:white;font-family:sans-serif;padding:20px}
-button{width:100%;padding:15px;margin:10px 0;font-size:18px;border-radius:10px;border:none;background:#38bdf8}
-.card{background:#111827;padding:15px;border-radius:10px;margin:10px 0}
-input{width:100%;padding:10px;margin:5px 0}
+body{margin:0;background:#07101f;color:white;font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:16px 16px 90px}
+h1{margin:0 0 4px;font-size:28px}
+small{color:#94a3b8}
+.card{background:#111827;border:1px solid #263244;border-radius:18px;padding:16px;margin:14px 0}
+button{width:100%;padding:14px;margin:8px 0;border:0;border-radius:14px;background:#38bdf8;font-weight:900;font-size:16px}
+input,textarea,select{width:100%;padding:12px;margin:6px 0;border-radius:12px;border:1px solid #263244;background:#020617;color:white;font-size:16px}
+label{display:block;color:#94a3b8;font-size:13px;margin-top:8px}
+.check{display:flex;gap:10px;align-items:center;background:#0b1220;padding:10px;border-radius:12px;margin:8px 0}
+.check input{width:22px;height:22px}
+.score{font-size:42px;font-weight:900}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#020617;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px}
+.nav button{font-size:11px;padding:10px 2px;background:#111827;color:white;border:1px solid #263244}
+.hidden{display:none}
+.pill{display:inline-block;background:#0b1220;border:1px solid #263244;border-radius:999px;padding:7px 10px;margin:4px;font-size:12px}
 </style>
 </head>
-
 <body>
 
-<h1>Phase 2 Dashboard</h1>
+<h1>Josh Phase 2</h1>
+<small>Fat loss • energy • stack • food • workouts</small>
 
+<section id="today">
 <div class="card">
-<h2>Daily</h2>
-<input id="weight" placeholder="Weight">
-<input id="steps" placeholder="Steps">
-<button onclick="save()">Save</button>
+<h2>Today</h2>
+<label>Date</label><input id="date" type="date">
+<label>AM Weight</label><input id="weight" placeholder="lbs">
+<label>Sleep Hours</label><input id="sleep" placeholder="hours">
+<label>Energy</label>
+<select id="energy"><option></option><option>Dead</option><option>Low</option><option>Okay</option><option>Good</option><option>Locked In</option></select>
+<label>Steps</label><input id="steps" placeholder="10000">
+<h3>Daily Score</h3>
+<div id="dailyChecks"></div>
+<div class="score" id="score">0%</div>
+<button onclick="save()">Save Today</button>
+<button onclick="clearDay()">Clear Today</button>
 </div>
+</section>
 
+<section id="stack" class="hidden">
 <div class="card">
-<h2>Food</h2>
-<input id="protein" placeholder="Protein grams">
+<h2>Supplement Stack</h2>
+<h3>Morning</h3>
+<label class="check"><input type="checkbox" id="electrolytes">Electrolytes + 16–20 oz water</label>
+<label class="check"><input type="checkbox" id="creatine">Creatine monohydrate</label>
+<label class="check"><input type="checkbox" id="d3k2">Vitamin D3/K2</label>
+<label class="check"><input type="checkbox" id="omega">Omega-3</label>
+<label class="check"><input type="checkbox" id="proteinSupp">Protein shake if breakfast is light</label>
+<h3>Workday</h3>
+<label class="check"><input type="checkbox" id="caffeine">No caffeine after 2 PM</label>
+<label class="check"><input type="checkbox" id="waterStack">Water target hit</label>
+<h3>Night</h3>
+<label class="check"><input type="checkbox" id="mag">Magnesium glycinate</label>
+<label class="check"><input type="checkbox" id="dark">Dark room / no doom scrolling</label>
+<button onclick="save()">Save Stack</button>
 </div>
+</section>
 
+<section id="food" class="hidden">
 <div class="card">
-<h2>Stack</h2>
-<p>AM: Water, Electrolytes</p>
-<p>PM: Magnesium</p>
+<h2>Food Tracker</h2>
+<label>Protein Goal</label><input id="proteinGoal" value="180">
+<label>Breakfast</label>
+<select id="breakfast"><option></option><option>Eggs + Greek yogurt</option><option>Protein shake + banana</option><option>Omelet + fruit</option><option>Cottage cheese + berries</option></select>
+<input id="breakfastP" placeholder="protein grams">
+<label>Lunch</label>
+<select id="lunch"><option></option><option>Chicken bowl</option><option>Turkey wrap</option><option>Lean meat + rice</option><option>Salad + double protein</option></select>
+<input id="lunchP" placeholder="protein grams">
+<label>Snack</label>
+<select id="snack"><option></option><option>Protein shake</option><option>Jerky</option><option>Greek yogurt</option><option>Cottage cheese</option><option>Protein bar</option></select>
+<input id="snackP" placeholder="protein grams">
+<label>Dinner</label>
+<select id="dinner"><option></option><option>Lean meat + vegetables</option><option>Chicken + rice + veg</option><option>Steak + salad</option><option>Salmon + vegetables</option><option>Turkey burger bowl</option></select>
+<input id="dinnerP" placeholder="protein grams">
+<label>Water oz</label><input id="waterOz" placeholder="100">
+<h3>Total Protein</h3>
+<div class="score" id="proteinTotal">0g</div>
+<button onclick="save()">Save Food</button>
+</div>
+</section>
+
+<section id="workouts" class="hidden">
+<div class="card">
+<h2>Workouts</h2>
+<h3>Mon/Wed/Fri — Strength</h3>
+<label class="check"><input type="checkbox" id="legs">Leg press or squat</label>
+<label class="check"><input type="checkbox" id="push">Push movement</label>
+<label class="check"><input type="checkbox" id="pull">Pull movement</label>
+<label class="check"><input type="checkbox" id="hinge">Hinge movement</label>
+<label class="check"><input type="checkbox" id="core">Core finisher</label>
+<h3>Tue/Thu — Cardio</h3>
+<label class="check"><input type="checkbox" id="cardio">30-minute walk, bike, or incline treadmill</label>
+<h3>Weekend</h3>
+<label class="check"><input type="checkbox" id="longwalk">Long walk, yard work, family activity, or bonus lift</label>
+<textarea id="workoutNotes" placeholder="Workout notes"></textarea>
+<button onclick="save()">Save Workout</button>
+</div>
+</section>
+
+<section id="plan" class="hidden">
+<div class="card">
+<h2>Dealer Schedule</h2>
+<p><b>6:45 AM</b> Wake + electrolytes<br>
+<b>7:05 AM</b> Walk or lift<br>
+<b>8:10 AM</b> Protein breakfast<br>
+<b>9:00 AM–8:30 PM</b> Work<br>
+<b>12:30 PM</b> Protein lunch<br>
+<b>3:30 PM</b> Controlled snack<br>
+<b>6:30 PM</b> Light dinner/protein<br>
+<b>9:00 PM</b> Home + decompress<br>
+<b>10:45 PM</b> Bed target</p>
+</div>
+<div class="card">
+<h2>Low Energy Protocol</h2>
+<p>Water + electrolytes. Protein breakfast. 10-minute walk. No caffeine after 2 PM. Bed routine tonight.</p>
+</div>
+<div class="card">
+<h2>Rules</h2>
+<span class="pill">Protein first</span><span class="pill">No liquid calories</span><span class="pill">10k steps</span><span class="pill">Lift 3x/week</span><span class="pill">No caffeine after 2 PM</span><span class="pill">Alcohol kills fat loss</span>
+</div>
+<div class="card">
+<h2>Notes</h2>
+<textarea id="notes" placeholder="Cravings, stress, mood, wins, hard parts..."></textarea>
+<button onclick="save()">Save Notes</button>
+</div>
+</section>
+
+<div class="nav">
+<button onclick="show('today')">Today</button>
+<button onclick="show('stack')">Stack</button>
+<button onclick="show('food')">Food</button>
+<button onclick="show('workouts')">Workout</button>
+<button onclick="show('plan')">Plan</button>
 </div>
 
 <script>
-function save(){
-localStorage.setItem("weight",document.getElementById("weight").value)
-localStorage.setItem("steps",document.getElementById("steps").value)
-alert("Saved")
+const daily=["Workout or 10-min walk","Protein hit","Water hit","Carbs controlled","Steps moved","No caffeine after 2 PM","Night stack completed","No alcohol"];
+const fields=["weight","sleep","energy","steps","electrolytes","creatine","d3k2","omega","proteinSupp","caffeine","waterStack","mag","dark","proteinGoal","breakfast","breakfastP","lunch","lunchP","snack","snackP","dinner","dinnerP","waterOz","legs","push","pull","hinge","core","cardio","longwalk","workoutNotes","notes"];
+function $(id){return document.getElementById(id)}
+function init(){
+$("date").valueAsDate=new Date();
+daily.forEach((x,i)=>{$("dailyChecks").innerHTML+=`<label class="check"><input type="checkbox" id="d${i}" onchange="calc()">${x}</label>`});
+["breakfastP","lunchP","snackP","dinnerP"].forEach(id=>$(id).addEventListener("input",calc));
+$("date").addEventListener("change",load);
+load();calc();
 }
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));$(id).classList.remove("hidden")}
+function key(){return"phase2-"+$("date").value}
+function save(){
+let o={date:$("date").value,daily:daily.map((_,i)=>$("d"+i).checked)};
+fields.forEach(id=>{let e=$(id); if(e)o[id]=e.type==="checkbox"?e.checked:e.value});
+localStorage.setItem(key(),JSON.stringify(o));calc();alert("Saved");
+}
+function load(){
+let raw=localStorage.getItem(key()); if(!raw)return;
+let o=JSON.parse(raw);
+fields.forEach(id=>{let e=$(id); if(e){if(e.type==="checkbox")e.checked=!!o[id]; else e.value=o[id]||""}});
+(o.daily||[]).forEach((v,i)=>{if($("d"+i))$("d"+i).checked=!!v});
+calc();
+}
+function clearDay(){if(confirm("Clear today?")){localStorage.removeItem(key());location.reload()}}
+function calc(){
+let done=0;daily.forEach((_,i)=>{if($("d"+i)&&$("d"+i).checked)done++});
+$("score").innerText=Math.round(done/daily.length*100)+"%";
+let p=["breakfastP","lunchP","snackP","dinnerP"].reduce((s,id)=>s+(parseInt($(id).value)||0),0);
+$("proteinTotal").innerText=p+"g";
+}
+document.addEventListener("DOMContentLoaded",init);
 </script>
 
 </body>
