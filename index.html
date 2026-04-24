@@ -1,1 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 2</title>
+<style>
+body{background:#0b1220;color:white;font-family:sans-serif;padding:20px}
+button{width:100%;padding:15px;margin:10px 0;font-size:18px;border-radius:10px;border:none;background:#38bdf8}
+.card{background:#111827;padding:15px;border-radius:10px;margin:10px 0}
+input{width:100%;padding:10px;margin:5px 0}
+</style>
+</head>
 
+<body>
+
+<h1>Phase 2 Dashboard</h1>
+
+<div class="card">
+<h2>Daily</h2>
+<input id="weight" placeholder="Weight">
+<input id="steps" placeholder="Steps">
+<button onclick="save()">Save</button>
+</div>
+
+<div class="card">
+<h2>Food</h2>
+<input id="protein" placeholder="Protein grams">
+</div>
+
+<div class="card">
+<h2>Stack</h2>
+<p>AM: Water, Electrolytes</p>
+<p>PM: Magnesium</p>
+</div>
+
+<script>
+function save(){
+localStorage.setItem("weight",document.getElementById("weight").value)
+localStorage.setItem("steps",document.getElementById("steps").value)
+alert("Saved")
+}
+</script>
+
+</body>
+</html>
