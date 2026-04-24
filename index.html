@@ -1,111 +1,713 @@
 <!doctype html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Phase 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07101f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Phase 2">
+<title>Josh Phase 2 V3</title>
+
 <style>
-body{margin:0;background:#07101f;color:white;font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:16px 16px 90px}
-h1{margin:0 0 4px;font-size:28px}
-small{color:#94a3b8}
-.card{background:#111827;border:1px solid #263244;border-radius:18px;padding:16px;margin:14px 0}
-button{width:100%;padding:14px;margin:8px 0;border:0;border-radius:14px;background:#38bdf8;font-weight:900;font-size:16px}
-input,textarea,select{width:100%;padding:12px;margin:6px 0;border-radius:12px;border:1px solid #263244;background:#020617;color:white;font-size:16px}
-label{display:block;color:#94a3b8;font-size:13px;margin-top:8px}
-.check{display:flex;gap:10px;align-items:center;background:#0b1220;padding:10px;border-radius:12px;margin:8px 0}
-.check input{width:22px;height:22px}
-.score{font-size:42px;font-weight:900}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#020617;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px}
-.nav button{font-size:11px;padding:10px 2px;background:#111827;color:white;border:1px solid #263244}
+:root{
+--bg:#07101f;
+--card:#111827;
+--card2:#0b1220;
+--text:#f8fafc;
+--muted:#94a3b8;
+--line:#263244;
+--blue:#38bdf8;
+--green:#22c55e;
+--red:#ef4444;
+--yellow:#facc15;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+margin:0;
+background:linear-gradient(180deg,#07101f,#020617);
+color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+padding:16px 14px 92px;
+}
+header{
+position:sticky;
+top:0;
+z-index:10;
+background:rgba(7,16,31,.96);
+backdrop-filter:blur(10px);
+border-bottom:1px solid var(--line);
+padding:14px 0 10px;
+}
+h1{font-size:26px;margin:0 0 4px}
+h2{font-size:20px;margin:0 0 12px}
+h3{font-size:15px;margin:18px 0 8px;color:#dbeafe}
+p{line-height:1.45}
+small,.small{color:var(--muted);font-size:12px;line-height:1.45}
+.card{
+background:rgba(17,24,39,.94);
+border:1px solid var(--line);
+border-radius:18px;
+padding:16px;
+margin:14px 0;
+box-shadow:0 10px 30px rgba(0,0,0,.22);
+}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select,textarea{
+width:100%;
+background:#020617;
+border:1px solid var(--line);
+color:var(--text);
+border-radius:12px;
+padding:13px;
+font-size:16px;
+margin:6px 0;
+}
+textarea{min-height:90px;resize:vertical}
+label{
+display:block;
+font-size:12px;
+color:var(--muted);
+margin-top:8px;
+}
+button{
+width:100%;
+border:0;
+border-radius:14px;
+padding:14px 12px;
+font-weight:900;
+font-size:15px;
+background:var(--blue);
+color:#06101f;
+margin:8px 0;
+}
+button.green{background:var(--green)}
+button.yellow{background:var(--yellow)}
+button.red{background:var(--red);color:white}
+button.dark{background:#1f2937;color:white;border:1px solid var(--line)}
+.check{
+display:flex;
+gap:10px;
+align-items:flex-start;
+background:#0b1220;
+border:1px solid #1e293b;
+border-radius:12px;
+padding:10px;
+margin:8px 0;
+}
+.check input{width:22px;height:22px;margin-top:0}
+.check span{font-size:15px;line-height:1.35}
+.score{
+font-size:44px;
+font-weight:950;
+margin:4px 0;
+}
+.pill{
+display:inline-block;
+background:#0b1220;
+border:1px solid var(--line);
+border-radius:999px;
+padding:7px 10px;
+margin:4px;
+font-size:12px;
+color:#cbd5e1;
+}
+.warning{
+border-left:4px solid var(--yellow);
+padding-left:12px;
+color:#fde68a;
+}
+.good{
+border-left:4px solid var(--green);
+padding-left:12px;
+color:#bbf7d0;
+}
 .hidden{display:none}
-.pill{display:inline-block;background:#0b1220;border:1px solid #263244;border-radius:999px;padding:7px 10px;margin:4px;font-size:12px}
+.progress{
+height:10px;
+background:#020617;
+border-radius:999px;
+overflow:hidden;
+border:1px solid var(--line);
+}
+.bar{
+height:100%;
+width:0%;
+background:var(--green);
+}
+.nav{
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+background:rgba(2,6,23,.98);
+border-top:1px solid var(--line);
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:5px;
+padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+}
+.nav button{
+font-size:10.5px;
+padding:9px 2px;
+border-radius:12px;
+min-height:42px;
+background:#111827;
+color:white;
+border:1px solid var(--line);
+margin:0;
+}
+.nav button.active{
+background:var(--blue);
+color:#06101f;
+}
+.meal,.supp,.workout,.autoBox{
+border:1px solid var(--line);
+background:#0b1220;
+border-radius:14px;
+padding:12px;
+margin:10px 0;
+}
 </style>
 </head>
+
 <body>
 
-<h1>Josh Phase 2</h1>
-<small>Fat loss • energy • stack • food • workouts</small>
-
+<header>
+<h1>Josh Phase 2 V3</h1>
+<small>Fat loss • beer belly/man boobs attack plan • stack • food • workouts • weekly tracking</small>
+</header>
 <section id="today">
+
 <div class="card">
-<h2>Today</h2>
-<label>Date</label><input id="date" type="date">
-<label>AM Weight</label><input id="weight" placeholder="lbs">
-<label>Sleep Hours</label><input id="sleep" placeholder="hours">
+<h2>Today Command Center</h2>
+
+<div class="row">
+<div>
+<label>Date</label>
+<input id="date" type="date">
+</div>
+<div>
+<label>AM Weight</label>
+<input id="weight" placeholder="lbs">
+</div>
+</div>
+
+<div class="row">
+<div>
+<label>Sleep Hours</label>
+<input id="sleep" placeholder="hours">
+</div>
+<div>
 <label>Energy</label>
-<select id="energy"><option></option><option>Dead</option><option>Low</option><option>Okay</option><option>Good</option><option>Locked In</option></select>
-<label>Steps</label><input id="steps" placeholder="10000">
-<h3>Daily Score</h3>
+<select id="energy">
+<option></option>
+<option>Dead</option>
+<option>Low</option>
+<option>Okay</option>
+<option>Good</option>
+<option>Locked In</option>
+</select>
+</div>
+</div>
+
+<div class="row">
+<div>
+<label>Steps</label>
+<input id="steps" placeholder="10000">
+</div>
+<div>
+<label>Alcohol</label>
+<select id="alcohol">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+</div>
+
+</div>
+
+<div class="card">
+<h2>Auto Mode (What You Should Do Today)</h2>
+
+<div id="autoMode" class="autoBox">
+Loading...
+</div>
+
+</div>
+
+<div class="card">
+<h2>Daily Non-Negotiables</h2>
+
 <div id="dailyChecks"></div>
+
+<h3>Score</h3>
 <div class="score" id="score">0%</div>
-<button onclick="save()">Save Today</button>
-<button onclick="clearDay()">Clear Today</button>
-</div>
-</section>
 
+<div class="progress">
+<div class="bar" id="scoreBar"></div>
+</div>
+
+<p class="small">
+Goal: 85–90% daily. This is how you lose fat, not guessing.
+</p>
+
+<button class="green" onclick="save()">Save Day</button>
+<button class="red" onclick="clearDay()">Reset Day</button>
+
+</div>
+
+<div class="card">
+<h2>Low Energy Protocol</h2>
+
+<div class="warning">
+Do NOT think. Execute:
+<br><br>
+• Water + electrolytes  
+• Protein breakfast  
+• 10 minute walk  
+• No caffeine after 2PM  
+• Sleep tonight  
+</div>
+
+</div>
+
+</section>
 <section id="stack" class="hidden">
-<div class="card">
-<h2>Supplement Stack</h2>
-<h3>Morning</h3>
-<label class="check"><input type="checkbox" id="electrolytes">Electrolytes + 16–20 oz water</label>
-<label class="check"><input type="checkbox" id="creatine">Creatine monohydrate</label>
-<label class="check"><input type="checkbox" id="d3k2">Vitamin D3/K2</label>
-<label class="check"><input type="checkbox" id="omega">Omega-3</label>
-<label class="check"><input type="checkbox" id="proteinSupp">Protein shake if breakfast is light</label>
-<h3>Workday</h3>
-<label class="check"><input type="checkbox" id="caffeine">No caffeine after 2 PM</label>
-<label class="check"><input type="checkbox" id="waterStack">Water target hit</label>
-<h3>Night</h3>
-<label class="check"><input type="checkbox" id="mag">Magnesium glycinate</label>
-<label class="check"><input type="checkbox" id="dark">Dark room / no doom scrolling</label>
-<button onclick="save()">Save Stack</button>
-</div>
-</section>
 
-<section id="food" class="hidden">
 <div class="card">
-<h2>Food Tracker</h2>
-<label>Protein Goal</label><input id="proteinGoal" value="180">
-<label>Breakfast</label>
-<select id="breakfast"><option></option><option>Eggs + Greek yogurt</option><option>Protein shake + banana</option><option>Omelet + fruit</option><option>Cottage cheese + berries</option></select>
-<input id="breakfastP" placeholder="protein grams">
-<label>Lunch</label>
-<select id="lunch"><option></option><option>Chicken bowl</option><option>Turkey wrap</option><option>Lean meat + rice</option><option>Salad + double protein</option></select>
-<input id="lunchP" placeholder="protein grams">
-<label>Snack</label>
-<select id="snack"><option></option><option>Protein shake</option><option>Jerky</option><option>Greek yogurt</option><option>Cottage cheese</option><option>Protein bar</option></select>
-<input id="snackP" placeholder="protein grams">
-<label>Dinner</label>
-<select id="dinner"><option></option><option>Lean meat + vegetables</option><option>Chicken + rice + veg</option><option>Steak + salad</option><option>Salmon + vegetables</option><option>Turkey burger bowl</option></select>
-<input id="dinnerP" placeholder="protein grams">
-<label>Water oz</label><input id="waterOz" placeholder="100">
+<h2>Full Supplement Stack</h2>
+
+<p class="warning">
+No “cortisol blocker” hype. Your real cortisol stack is sleep, walking, lifting, food consistency, caffeine control, and alcohol control.
+</p>
+
+<div class="supp">
+<h3>6:45 AM — Wake Up</h3>
+
+<label class="check">
+<input type="checkbox" id="supp_water">
+<span><b>16–20 oz water</b> immediately after waking.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_electrolytes">
+<span><b>Electrolytes</b> — low/no sugar. Use this to wake up your system without slamming caffeine first thing.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_sunlight">
+<span><b>Light exposure</b> — get outside or bright light for 5–10 minutes if possible.</span>
+</label>
+</div>
+
+<div class="supp">
+<h3>8:10 AM — Breakfast Stack</h3>
+
+<label class="check">
+<input type="checkbox" id="supp_protein">
+<span><b>Protein meal or shake</b> — target 35–50g protein at breakfast.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_creatine">
+<span><b>Creatine monohydrate</b> — daily consistency matters more than timing.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_d3k2">
+<span><b>Vitamin D3/K2</b> — take with food containing some fat.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_omega3">
+<span><b>Omega-3</b> — take with breakfast or lunch.</span>
+</label>
+</div>
+
+<div class="supp">
+<h3>Workday Stack</h3>
+
+<label class="check">
+<input type="checkbox" id="supp_lunchprotein">
+<span><b>Lunch protein anchor</b> — chicken bowl, turkey wrap, lean meat, or double-protein salad.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_snack">
+<span><b>Controlled snack</b> — protein shake, Greek yogurt, jerky, cottage cheese, or protein bar.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_caffeinecut">
+<span><b>Caffeine cutoff by 2 PM</b> — this is non-negotiable if morning exhaustion is a problem.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_watergoal">
+<span><b>Water target</b> — aim for 80–120 oz depending on sweat, caffeine, and workload.</span>
+</label>
+</div>
+
+<div class="supp">
+<h3>9:00–10:45 PM — Night Stack</h3>
+
+<label class="check">
+<input type="checkbox" id="supp_magnesium">
+<span><b>Magnesium glycinate</b> — night routine support.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_shutdown">
+<span><b>Phone shutdown</b> — no doom scrolling in bed.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_darkroom">
+<span><b>Dark room</b> — cold/dark/quiet sleep setup.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="supp_bedtime">
+<span><b>Bed target</b> — 10:45 PM target on dealer nights.</span>
+</label>
+</div>
+
+<div class="card">
+<h2>Supplement Safety Notes</h2>
+<p class="small">
+This app is a tracker, not medical advice. If you take prescriptions, have blood pressure issues, kidney issues, sleep apnea concerns, anxiety/panic symptoms, or any medical condition, verify supplement doses with a clinician.
+</p>
+</div>
+
+<button class="green" onclick="save()">Save Stack</button>
+
+</div>
+
+</section>
+<section id="food" class="hidden">
+
+<div class="card">
+<h2>Food System (No Guessing)</h2>
+
+<div class="row">
+<div>
+<label>Protein Goal</label>
+<input id="proteinGoal" value="180">
+</div>
+<div>
+<label>Water Goal (oz)</label>
+<input id="waterGoal" value="100">
+</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Breakfast (8:00–8:30 AM)</h3>
+
+<select id="breakfast">
+<option></option>
+<option>Eggs + Greek yogurt</option>
+<option>Protein shake + banana</option>
+<option>Omelet + fruit</option>
+<option>Cottage cheese + berries</option>
+<option>Egg sandwich + protein shake</option>
+</select>
+
+<label>Protein (g)</label>
+<input id="breakfastP" placeholder="40">
+
+</div>
+
+<div class="card">
+
+<h3>Lunch (12:00–1:00 PM)</h3>
+
+<select id="lunch">
+<option></option>
+<option>Chicken bowl</option>
+<option>Turkey wrap</option>
+<option>Lean meat + rice</option>
+<option>Double protein salad</option>
+<option>Chipotle double meat bowl (no junk)</option>
+</select>
+
+<label>Protein (g)</label>
+<input id="lunchP" placeholder="45">
+
+</div>
+
+<div class="card">
+
+<h3>Snack (3:00–4:00 PM)</h3>
+
+<select id="snack">
+<option></option>
+<option>Protein shake</option>
+<option>Jerky</option>
+<option>Greek yogurt</option>
+<option>Cottage cheese</option>
+<option>Protein bar</option>
+</select>
+
+<label>Protein (g)</label>
+<input id="snackP" placeholder="25">
+
+</div>
+
+<div class="card">
+
+<h3>Dinner (6:00–7:00 PM)</h3>
+
+<select id="dinner">
+<option></option>
+<option>Lean meat + vegetables</option>
+<option>Chicken + rice + veg</option>
+<option>Steak + salad</option>
+<option>Salmon + vegetables</option>
+<option>Turkey burger bowl</option>
+</select>
+
+<label>Protein (g)</label>
+<input id="dinnerP" placeholder="50">
+
+</div>
+
+<div class="card">
+
+<h3>Hydration + Control</h3>
+
+<label>Water (oz)</label>
+<input id="waterOz" placeholder="100">
+
+<label>Carbs Controlled?</label>
+<select id="carbs">
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<label>Alcohol?</label>
+<select id="alcoholFood">
+<option>No</option>
+<option>Yes</option>
+</select>
+
+</div>
+
+<div class="card">
+
 <h3>Total Protein</h3>
 <div class="score" id="proteinTotal">0g</div>
-<button onclick="save()">Save Food</button>
-</div>
-</section>
 
-<section id="workouts" class="hidden">
+<div class="progress">
+<div class="bar" id="proteinBar"></div>
+</div>
+
+<p class="small">
+Target: 160–200g daily = fat loss + muscle retention.
+</p>
+
+<button class="green" onclick="save()">Save Food</button>
+
+</div>
+
 <div class="card">
-<h2>Workouts</h2>
-<h3>Mon/Wed/Fri — Strength</h3>
-<label class="check"><input type="checkbox" id="legs">Leg press or squat</label>
-<label class="check"><input type="checkbox" id="push">Push movement</label>
-<label class="check"><input type="checkbox" id="pull">Pull movement</label>
-<label class="check"><input type="checkbox" id="hinge">Hinge movement</label>
-<label class="check"><input type="checkbox" id="core">Core finisher</label>
-<h3>Tue/Thu — Cardio</h3>
-<label class="check"><input type="checkbox" id="cardio">30-minute walk, bike, or incline treadmill</label>
-<h3>Weekend</h3>
-<label class="check"><input type="checkbox" id="longwalk">Long walk, yard work, family activity, or bonus lift</label>
-<textarea id="workoutNotes" placeholder="Workout notes"></textarea>
-<button onclick="save()">Save Workout</button>
+<h2>Emergency Food (Dealer Life)</h2>
+
+<span class="pill">Protein shake</span>
+<span class="pill">Jerky</span>
+<span class="pill">Greek yogurt</span>
+<span class="pill">Cottage cheese</span>
+<span class="pill">Protein bar</span>
+
+<p class="small">
+If you're busy: don't skip — replace with one of these.
+</p>
+
 </div>
+
+</section>
+  
+  <section id="workouts" class="hidden">
+
+<div class="card">
+<h2>Workout System</h2>
+
+<p class="good">
+Goal: lose the beer belly, tighten the chest, and build enough muscle that the weight loss actually looks good.
+</p>
+
+<div class="workout">
+<h3>Mon / Wed / Fri — Strength Day</h3>
+
+<label class="check">
+<input type="checkbox" id="wo_warmup">
+<span><b>Warm-up:</b> 5–10 minutes walk, bike, or light movement.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="wo_legs">
+<span><b>Leg press or squat pattern:</b> 3 sets of 8–12 reps.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="wo_push">
+<span><b>Push movement:</b> chest press, push-ups, dumbbell press, or machine press — 3 sets.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="wo_pull">
+<span><b>Pull movement:</b> row, lat pulldown, cable row, or dumbbell row — 3 sets.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="wo_hinge">
+<span><b>Hinge movement:</b> Romanian deadlift, hip hinge, back extension, or kettlebell deadlift — 2–3 sets.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="wo_core">
+<span><b>Core finisher:</b> plank, dead bug, cable crunch, or farmer carry — 5–8 minutes.</span>
+</label>
+</div>
+
+<div class="workout">
+<h3>Tue / Thu — Cardio + Belly Attack</h3>
+
+<label class="check">
+<input type="checkbox" id="wo_zone2">
+<span><b>Zone 2 cardio:</b> 30 minutes brisk walk, incline treadmill, bike, or elliptical.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="wo_walk">
+<span><b>Post-meal walk:</b> 10 minutes after dinner if possible.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="wo_mobility">
+<span><b>Mobility:</b> hips, hamstrings, chest/shoulders — 5 minutes.</span>
+</label>
+</div>
+
+<div class="workout">
+<h3>Saturday — Flexible Win</h3>
+
+<label class="check">
+<input type="checkbox" id="wo_sat">
+<span><b>Family activity / yard work / long walk / bonus lift.</b> Don’t make Saturday a couch + calories day.</span>
+</label>
+</div>
+
+<div class="workout">
+<h3>Sunday — Reset</h3>
+
+<label class="check">
+<input type="checkbox" id="wo_sunwalk">
+<span><b>Walk or light activity:</b> 20–30 minutes.</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="wo_prep">
+<span><b>Prep the week:</b> protein options, water, stack, schedule.</span>
+</label>
+</div>
+
+<label>Workout Notes</label>
+<textarea id="workoutNotes" placeholder="What did you do? How did your body feel? Any pain, fatigue, or wins?"></textarea>
+
+<button class="green" onclick="save()">Save Workout</button>
+
+</div>
+
 </section>
 
-<section id="plan" class="hidden">
+
+<section id="weekly" class="hidden">
+
+<div class="card">
+<h2>Weekly Tracking</h2>
+
+<p class="small">
+Use this once per week. Don’t obsess daily — look for trend, compliance, and consistency.
+</p>
+
+<div class="row">
+<div>
+<label>Week Start</label>
+<input id="weekStart" placeholder="ex: Monday">
+</div>
+<div>
+<label>Average Weight</label>
+<input id="avgWeight" placeholder="lbs">
+</div>
+</div>
+
+<div class="row">
+<div>
+<label>Waist Measurement</label>
+<input id="waist" placeholder="inches">
+</div>
+<div>
+<label>Weekly Score %</label>
+<input id="weeklyScore" placeholder="0-100">
+</div>
+</div>
+
+<label>Biggest Win This Week</label>
+<textarea id="weeklyWin" placeholder="What worked?"></textarea>
+
+<label>Biggest Problem This Week</label>
+<textarea id="weeklyProblem" placeholder="What got in the way?"></textarea>
+
+<label>Fix For Next Week</label>
+<textarea id="weeklyFix" placeholder="What is the one adjustment?"></textarea>
+
+<button class="green" onclick="save()">Save Weekly Review</button>
+
+</div>
+
+<div class="card">
+<h2>Streak Tracker</h2>
+
+<label class="check">
+<input type="checkbox" id="streak_3days">
+<span>3 strong days this week</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="streak_5days">
+<span>5 strong days this week</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="streak_noalcohol">
+<span>No alcohol this week</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="streak_workouts">
+<span>3 workouts completed this week</span>
+</label>
+
+<label class="check">
+<input type="checkbox" id="streak_sleep">
+<span>Sleep improved this week</span>
+</label>
+
+<button class="green" onclick="save()">Save Streaks</button>
+
+</div>
+
+</section>
+
+ <section id="plan" class="hidden">
+
 <div class="card">
 <h2>Dealer Schedule</h2>
-<p><b>6:45 AM</b> Wake + electrolytes<br>
+
+<p>
+<b>6:45 AM</b> Wake + electrolytes<br>
 <b>7:05 AM</b> Walk or lift<br>
 <b>8:10 AM</b> Protein breakfast<br>
 <b>9:00 AM–8:30 PM</b> Work<br>
@@ -113,65 +715,181 @@ label{display:block;color:#94a3b8;font-size:13px;margin-top:8px}
 <b>3:30 PM</b> Controlled snack<br>
 <b>6:30 PM</b> Light dinner/protein<br>
 <b>9:00 PM</b> Home + decompress<br>
-<b>10:45 PM</b> Bed target</p>
+<b>10:45 PM</b> Bed target
+</p>
+
 </div>
+
 <div class="card">
-<h2>Low Energy Protocol</h2>
-<p>Water + electrolytes. Protein breakfast. 10-minute walk. No caffeine after 2 PM. Bed routine tonight.</p>
+<h2>Execution Rules</h2>
+
+<span class="pill">Protein first</span>
+<span class="pill">No liquid calories</span>
+<span class="pill">10k steps</span>
+<span class="pill">Lift 3x/week</span>
+<span class="pill">No caffeine after 2PM</span>
+<span class="pill">Alcohol kills fat loss</span>
+
 </div>
-<div class="card">
-<h2>Rules</h2>
-<span class="pill">Protein first</span><span class="pill">No liquid calories</span><span class="pill">10k steps</span><span class="pill">Lift 3x/week</span><span class="pill">No caffeine after 2 PM</span><span class="pill">Alcohol kills fat loss</span>
-</div>
-<div class="card">
-<h2>Notes</h2>
-<textarea id="notes" placeholder="Cravings, stress, mood, wins, hard parts..."></textarea>
-<button onclick="save()">Save Notes</button>
-</div>
+
 </section>
+
 
 <div class="nav">
 <button onclick="show('today')">Today</button>
 <button onclick="show('stack')">Stack</button>
 <button onclick="show('food')">Food</button>
 <button onclick="show('workouts')">Workout</button>
+<button onclick="show('weekly')">Weekly</button>
 <button onclick="show('plan')">Plan</button>
 </div>
 
+
 <script>
-const daily=["Workout or 10-min walk","Protein hit","Water hit","Carbs controlled","Steps moved","No caffeine after 2 PM","Night stack completed","No alcohol"];
-const fields=["weight","sleep","energy","steps","electrolytes","creatine","d3k2","omega","proteinSupp","caffeine","waterStack","mag","dark","proteinGoal","breakfast","breakfastP","lunch","lunchP","snack","snackP","dinner","dinnerP","waterOz","legs","push","pull","hinge","core","cardio","longwalk","workoutNotes","notes"];
+
+const dailyItems=[
+"Workout or 10-min walk",
+"Protein hit",
+"Water hit",
+"Carbs controlled",
+"Steps moved",
+"No caffeine after 2 PM",
+"Night stack completed",
+"No alcohol"
+];
+
 function $(id){return document.getElementById(id)}
+
 function init(){
 $("date").valueAsDate=new Date();
-daily.forEach((x,i)=>{$("dailyChecks").innerHTML+=`<label class="check"><input type="checkbox" id="d${i}" onchange="calc()">${x}</label>`});
-["breakfastP","lunchP","snackP","dinnerP"].forEach(id=>$(id).addEventListener("input",calc));
+
+dailyItems.forEach((x,i)=>{
+$("dailyChecks").innerHTML+=
+`<label class="check">
+<input type="checkbox" id="d${i}" onchange="calcAll()">
+<span>${x}</span>
+</label>`
+});
+
+[
+"breakfastP","lunchP","snackP","dinnerP",
+"proteinGoal","waterOz","sleep","steps"
+].forEach(id=>{
+if($(id)) $(id).addEventListener("input",calcAll)
+});
+
 $("date").addEventListener("change",load);
-load();calc();
+
+load();
+calcAll();
+updateAutoMode();
 }
-function show(id){document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));$(id).classList.remove("hidden")}
-function key(){return"phase2-"+$("date").value}
+
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+$(id).classList.remove("hidden");
+}
+
+function key(){
+return "phase3-"+$("date").value;
+}
+
 function save(){
-let o={date:$("date").value,daily:daily.map((_,i)=>$("d"+i).checked)};
-fields.forEach(id=>{let e=$(id); if(e)o[id]=e.type==="checkbox"?e.checked:e.value});
-localStorage.setItem(key(),JSON.stringify(o));calc();alert("Saved");
+let o={date:$("date").value,daily:dailyItems.map((_,i)=>$("d"+i).checked)};
+
+document.querySelectorAll("input,select,textarea").forEach(el=>{
+if(el.id){
+o[el.id]=el.type==="checkbox"?el.checked:el.value;
 }
+});
+
+localStorage.setItem(key(),JSON.stringify(o));
+calcAll();
+updateAutoMode();
+alert("Saved");
+}
+
 function load(){
-let raw=localStorage.getItem(key()); if(!raw)return;
+let raw=localStorage.getItem(key());
+if(!raw)return;
+
 let o=JSON.parse(raw);
-fields.forEach(id=>{let e=$(id); if(e){if(e.type==="checkbox")e.checked=!!o[id]; else e.value=o[id]||""}});
-(o.daily||[]).forEach((v,i)=>{if($("d"+i))$("d"+i).checked=!!v});
-calc();
+
+Object.keys(o).forEach(k=>{
+let el=$(k);
+if(!el)return;
+if(el.type==="checkbox") el.checked=o[k];
+else el.value=o[k];
+});
+
+(o.daily||[]).forEach((v,i)=>{
+if($("d"+i)) $("d"+i).checked=v;
+});
+
+calcAll();
+updateAutoMode();
 }
-function clearDay(){if(confirm("Clear today?")){localStorage.removeItem(key());location.reload()}}
-function calc(){
-let done=0;daily.forEach((_,i)=>{if($("d"+i)&&$("d"+i).checked)done++});
-$("score").innerText=Math.round(done/daily.length*100)+"%";
-let p=["breakfastP","lunchP","snackP","dinnerP"].reduce((s,id)=>s+(parseInt($(id).value)||0),0);
-$("proteinTotal").innerText=p+"g";
+
+function clearDay(){
+if(confirm("Reset today?")){
+localStorage.removeItem(key());
+location.reload();
 }
+}
+
+function calcAll(){
+
+let done=0;
+dailyItems.forEach((_,i)=>{
+if($("d"+i)?.checked) done++;
+});
+
+let pct=Math.round(done/dailyItems.length*100);
+$("score").innerText=pct+"%";
+if($("scoreBar")) $("scoreBar").style.width=pct+"%";
+
+let protein=
+(parseInt($("breakfastP")?.value)||0)+
+(parseInt($("lunchP")?.value)||0)+
+(parseInt($("snackP")?.value)||0)+
+(parseInt($("dinnerP")?.value)||0);
+
+if($("proteinTotal")) $("proteinTotal").innerText=protein+"g";
+
+let goal=parseInt($("proteinGoal")?.value)||180;
+
+if($("proteinBar")){
+$("proteinBar").style.width=Math.min(100,(protein/goal)*100)+"%";
+}
+
+}
+
+function updateAutoMode(){
+
+let energy=$("energy")?.value;
+let sleep=parseFloat($("sleep")?.value||0);
+let protein=parseInt($("proteinTotal")?.innerText)||0;
+
+let msg="";
+
+if(energy==="Dead" || sleep<5){
+msg="Low energy day → Walk only + protein + survive. Do NOT skip everything.";
+}
+else if(protein<120){
+msg="You are under-eating protein → Fix meals immediately.";
+}
+else{
+msg="Execute full plan → Lift or cardio + hit all stack + stay clean.";
+}
+
+$("autoMode").innerText=msg;
+}
+
 document.addEventListener("DOMContentLoaded",init);
+
 </script>
 
 </body>
-</html>
+</html> 
+
+  
