@@ -7,132 +7,628 @@
 
   <style>
     :root {
-      --bg: #070707;
+      --bg: #050505;
+      --panel: #0d0d0d;
       --card: #141414;
-      --card2: #1d1d1d;
+      --card2: #1b1b1b;
+      --line: #2a2a2a;
       --text: #f5f5f5;
-      --muted: #b8b8b8;
-      --green: #38d66b;
+      --muted: #a8a8a8;
+      --green: #72d91d;
+      --green2: #38d66b;
       --red: #ff4d4d;
       --gold: #f5b942;
       --blue: #4da3ff;
-      --border: #2a2a2a;
+      --orange: #ff9f1c;
+      --shadow: 0 18px 60px rgba(0, 0, 0, .45);
     }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
       scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #050505, #111);
+      background:
+        radial-gradient(circle at top left, rgba(114, 217, 29, .12), transparent 32%),
+        radial-gradient(circle at top right, rgba(77, 163, 255, .08), transparent 30%),
+        linear-gradient(180deg, #020202, #0b0b0b 55%, #050505);
       color: var(--text);
-      line-height: 1.5;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
     }
 
-    header {
-      padding: 28px 18px 18px;
-      text-align: center;
-      background: radial-gradient(circle at top, #202020, #070707);
-      border-bottom: 1px solid var(--border);
+    .app {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 10px;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      color: var(--green);
-    }
-
-    header p {
-      margin: 10px auto 0;
-      max-width: 720px;
-      color: var(--muted);
-    }
-
-    nav {
+    .hero {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+        radial-gradient(circle at top, rgba(114,217,29,.14), transparent 45%);
+      box-shadow: var(--shadow);
+      padding: 14px 12px 12px;
       position: sticky;
       top: 0;
-      z-index: 100;
-      display: flex;
-      overflow-x: auto;
-      gap: 8px;
-      padding: 10px;
-      background: rgba(10, 10, 10, 0.96);
-      border-bottom: 1px solid var(--border);
+      z-index: 50;
+      backdrop-filter: blur(12px);
     }
 
-    nav a {
-      flex: 0 0 auto;
+    .top-row {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .menu-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #101010;
       color: var(--text);
-      text-decoration: none;
-      background: var(--card2);
-      padding: 9px 13px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      border: 1px solid var(--border);
+      font-size: 1.35rem;
+      display: grid;
+      place-items: center;
     }
 
-    nav a:hover {
-      border-color: var(--green);
+    .brand {
+      text-align: center;
+      line-height: 1;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.55rem, 5.5vw, 3.4rem);
+      letter-spacing: 1px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .brand .white {
+      color: #f1f1f1;
+      text-shadow: 0 0 18px rgba(255,255,255,.15);
+    }
+
+    .brand .green {
       color: var(--green);
+      text-shadow: 0 0 20px rgba(114,217,29,.35);
+    }
+
+    .brand p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .hero-stats {
+      display: none;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .stat-chip {
+      min-width: 92px;
+      border-left: 1px solid var(--line);
+      padding-left: 12px;
+      text-align: center;
+    }
+
+    .stat-chip strong {
+      display: block;
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+
+    .stat-chip span {
+      color: var(--green);
+      font-size: .78rem;
+    }
+
+    .tabs {
+      margin-top: 12px;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(92px, 1fr);
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(0,0,0,.35);
+    }
+
+    .tabs a {
+      min-height: 70px;
+      padding: 10px 8px;
+      text-decoration: none;
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      border-right: 1px solid var(--line);
+      font-size: .74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tabs a:last-child {
+      border-right: 0;
+    }
+
+    .tabs a:hover,
+    .tabs a.active {
+      color: var(--green);
+      background: linear-gradient(180deg, rgba(114,217,29,.12), transparent);
+      box-shadow: inset 0 -3px 0 var(--green);
+    }
+
+    .tabs .ico {
+      font-size: 1.35rem;
+      line-height: 1;
     }
 
     main {
-      max-width: 950px;
-      margin: auto;
-      padding: 18px;
+      padding-top: 14px;
     }
 
     section {
-      margin: 22px 0;
-      padding: 20px;
-      background: var(--card);
-      border: 1px solid var(--border);
+      margin: 14px 0;
+      border: 1px solid var(--line);
       border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01)),
+        var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
-    h2 {
-      margin-top: 0;
+    .section-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .section-head h2 {
+      margin: 0;
       color: var(--green);
-      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      font-size: 1.25rem;
     }
 
-    h3 {
-      color: var(--gold);
-      margin-bottom: 8px;
+    .section-head small {
+      color: var(--muted);
     }
 
-    .grid {
+    .content {
+      padding: 14px;
+    }
+
+    .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
 
     .card {
-      background: var(--card2);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01)),
+        var(--card);
+      overflow: hidden;
+    }
+
+    .card-pad {
+      padding: 14px;
+    }
+
+    .card-title {
+      margin: 0;
+      color: var(--green);
+      text-transform: uppercase;
+      font-size: 1rem;
+      letter-spacing: .35px;
+    }
+
+    .subtle {
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .row-list {
+      display: grid;
+    }
+
+    .task-row,
+    .habit-row,
+    .rule-row {
+      display: grid;
+      grid-template-columns: 34px 82px 1fr 36px;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .task-row:first-child,
+    .habit-row:first-child,
+    .rule-row:first-child {
+      border-top: 0;
+    }
+
+    .task-row .icon,
+    .habit-row .icon,
+    .rule-row .icon {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
     }
 
     .time {
       color: var(--blue);
-      font-weight: bold;
-      font-size: 1.05rem;
+      font-weight: 900;
+      font-size: .9rem;
+      white-space: nowrap;
     }
 
-    .tag {
-      display: inline-block;
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      margin: 3px 4px 3px 0;
-      background: #252525;
+    .task-title {
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .task-sub {
       color: var(--muted);
-      border: 1px solid var(--border);
+      font-size: .8rem;
+      margin-top: 2px;
+    }
+
+    .check {
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #575757;
+      background: transparent;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .check:checked {
+      background: radial-gradient(circle, var(--green) 0 42%, transparent 45%);
+      border-color: var(--green);
+      box-shadow: 0 0 16px rgba(114,217,29,.35);
+    }
+
+    .check:checked::after {
+      content: "✓";
+      color: #071007;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .button-row {
+      padding: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    button,
+    .btn {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: linear-gradient(180deg, #202020, #111);
+      color: var(--green);
+      padding: 12px 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button:hover,
+    .btn:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 18px rgba(114,217,29,.17);
+    }
+
+    .progress-wrap {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 14px;
+    }
+
+    .ring {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: conic-gradient(var(--green) 0%, #24331a 0%);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 30px rgba(114,217,29,.15);
+      margin: auto;
+    }
+
+    .ring-inner {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: #090909;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .ring-inner strong {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .ring-inner span {
+      color: var(--green);
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size: .72rem;
+    }
+
+    .progress-lines {
+      display: grid;
+      gap: 8px;
+    }
+
+    .progress-line {
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      font-size: .9rem;
+    }
+
+    .progress-line .value {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .streak-row {
+      border-top: 1px solid var(--line);
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .streak-main {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .days {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .day-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid #555;
+      display: grid;
+      place-items: center;
+      color: #777;
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
+    .day-dot.done {
+      background: var(--green);
+      color: #081008;
+      border-color: var(--green);
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .metric-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #111;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .metric-card .big {
+      display: block;
+      margin-top: 4px;
+      font-size: 1.45rem;
+      font-weight: 900;
+    }
+
+    .metric-card small {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .meal-row {
+      display: grid;
+      grid-template-columns: 34px 1fr 92px 36px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .meal-row:first-child {
+      border-top: 0;
+    }
+
+    .food-plate {
+      width: 86px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.65);
+      background:
+        radial-gradient(circle at 35% 45%, rgba(245,185,66,.95) 0 18%, transparent 19%),
+        radial-gradient(circle at 58% 42%, rgba(56,214,107,.9) 0 14%, transparent 15%),
+        radial-gradient(circle at 68% 58%, rgba(255,77,77,.8) 0 12%, transparent 13%),
+        linear-gradient(145deg, #3b2b18, #111);
+      box-shadow: inset 0 0 20px rgba(255,255,255,.08);
+    }
+
+    .workout-figure {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 14px;
+      background:
+        radial-gradient(circle at center, rgba(114,217,29,.16), transparent 40%),
+        #0d0d0d;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .body-icon {
+      font-size: 5rem;
+      filter: drop-shadow(0 0 16px rgba(114,217,29,.25));
+    }
+
+    .muscle {
+      color: var(--gold);
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .macro-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .macro-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      background: #101010;
+    }
+
+    .macro-box .macro-icon {
+      font-size: 1.6rem;
+    }
+
+    .macro-box strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 1rem;
+    }
+
+    .macro-box small {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: .67rem;
+      font-weight: 800;
+    }
+
+    .bar-list {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      border-top: 1px solid var(--line);
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 90px;
+      align-items: center;
+      gap: 8px;
+      font-size: .82rem;
+    }
+
+    .bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #2a2a2a;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+    }
+
+    .stack-columns {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .stack-col {
+      border-left: 1px solid var(--line);
+      padding-left: 12px;
+    }
+
+    .stack-col:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+
+    .stack-col h4 {
+      margin: 0 0 8px;
+      text-transform: uppercase;
+      font-size: .9rem;
+    }
+
+    .stack-col ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: .82rem;
+    }
+
+    .stack-col li {
+      margin: 5px 0;
     }
 
     .good { color: var(--green); }
@@ -140,446 +636,1134 @@
     .gold { color: var(--gold); }
     .blue { color: var(--blue); }
 
-    ul {
+    .rule-row {
+      grid-template-columns: 34px 1fr 34px;
+      font-size: .9rem;
+    }
+
+    .rule-row.bad-rule .icon {
+      color: var(--red);
+    }
+
+    .rule-row.good-rule .icon {
+      color: var(--green);
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 14px;
+    }
+
+    label.input-box {
+      display: grid;
+      gap: 6px;
+      border: 1px solid var(--line);
+      background: #101010;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    label.input-box span {
+      color: var(--muted);
+      font-size: .78rem;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid #333;
+      background: #070707;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(114,217,29,.12);
+    }
+
+    .full-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .info-card {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .info-card h3 {
+      color: var(--gold);
+      margin: 0 0 8px;
+      text-transform: uppercase;
+      font-size: 1rem;
+    }
+
+    .info-card ul {
+      margin: 0;
       padding-left: 20px;
     }
 
-    li {
+    .info-card li {
       margin-bottom: 7px;
     }
 
-    .rule {
-      border-left: 4px solid var(--green);
-      padding: 10px 12px;
-      background: #101910;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
-
-    .danger {
-      border-left: 4px solid var(--red);
-      padding: 10px 12px;
-      background: #1b1010;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
-
-    .macro-box {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
-    }
-
-    .macro {
-      background: #101010;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+    .warning,
+    .success {
+      margin-top: 12px;
       padding: 12px;
-      text-align: center;
+      border-radius: 12px;
+      border-left: 5px solid var(--red);
+      background: rgba(255,77,77,.09);
     }
 
-    .macro strong {
-      display: block;
-      color: var(--green);
-      font-size: 1.2rem;
+    .success {
+      border-left-color: var(--green);
+      background: rgba(114,217,29,.09);
     }
 
     footer {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
       text-align: center;
-      padding: 30px 15px;
+      margin: 16px 0 6px;
       color: var(--muted);
-      font-size: 0.85rem;
+      background: #080808;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    footer .green {
+      color: var(--green);
+    }
+
+    @media (min-width: 760px) {
+      .hero-stats {
+        display: flex;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1.1fr 1fr;
+      }
+
+      .wide {
+        grid-column: span 2;
+      }
+
+      .three {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .four {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .stack-columns {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .input-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .full-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1020px) {
+      .dashboard-grid {
+        grid-template-columns: 1.15fr 1.05fr .95fr;
+      }
+
+      .span2 {
+        grid-column: span 2;
+      }
+
+      .wide {
+        grid-column: span 3;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .app {
+        padding: 7px;
+      }
+
+      .hero {
+        padding: 10px 8px;
+      }
+
+      .top-row {
+        grid-template-columns: 38px 1fr;
+      }
+
+      .brand {
+        text-align: left;
+      }
+
+      .brand h1 {
+        font-size: 1.42rem;
+      }
+
+      .brand p {
+        font-size: .76rem;
+      }
+
+      .tabs {
+        grid-auto-columns: 84px;
+      }
+
+      .tabs a {
+        min-height: 62px;
+      }
+
+      .progress-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .task-row {
+        grid-template-columns: 30px 72px 1fr 34px;
+        padding: 10px 8px;
+      }
+
+      .meal-row {
+        grid-template-columns: 30px 1fr 70px 34px;
+      }
+
+      .food-plate {
+        width: 66px;
+        height: 42px;
+      }
+
+      .macro-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .bar-row {
+        grid-template-columns: 62px 1fr 76px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="app">
 
-<header>
-  <h1>🔥 Dealer Cut System</h1>
-  <p>
-    Built for a 9:00 AM–8:30 PM dealership schedule with a 30-minute drive home.
-    Goal: lose beer belly, reduce chest fat, improve morning energy, control stress/cortisol, and stay sharp.
-  </p>
-</header>
+    <header class="hero">
+      <div class="top-row">
+        <button class="menu-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">☰</button>
 
-<nav>
-  <a href="#schedule">Schedule</a>
-  <a href="#stack">Stack</a>
-  <a href="#meals">Meals</a>
-  <a href="#workouts">Workouts</a>
-  <a href="#macros">Macros</a>
-  <a href="#kpi">KPIs</a>
-  <a href="#rules">Rules</a>
-</nav>
+        <div class="brand">
+          <h1><span class="green">▮▮</span> <span class="white">Dealer</span> <span class="green">Cut</span> <span class="white">System</span> <span class="green">▮▮</span></h1>
+          <p>Built for a 9:00 AM–8:30 PM dealership schedule. Track the plan. Execute daily.</p>
+        </div>
 
-<main>
+        <div class="hero-stats">
+          <div class="stat-chip">
+            <strong id="topStreak">0</strong>
+            <span>Day Streak</span>
+          </div>
+          <div class="stat-chip">
+            <strong id="topScore">0%</strong>
+            <span>Daily Score</span>
+          </div>
+        </div>
+      </div>
 
-<section id="schedule">
-  <h2>Daily Dealer Schedule</h2>
+      <nav class="tabs">
+        <a class="active" href="#dashboard"><span class="ico">🏠</span>Dashboard</a>
+        <a href="#schedule"><span class="ico">🕒</span>Schedule</a>
+        <a href="#stack"><span class="ico">💊</span>Stack</a>
+        <a href="#meals"><span class="ico">🍴</span>Meals</a>
+        <a href="#workouts"><span class="ico">🏋️</span>Workouts</a>
+        <a href="#macros"><span class="ico">📊</span>Macros</a>
+        <a href="#kpi"><span class="ico">📈</span>KPIs</a>
+        <a href="#rules"><span class="ico">🛡️</span>Rules</a>
+      </nav>
+    </header>
 
-  <div class="grid">
+    <main>
 
-    <div class="card">
-      <div class="time">6:15 AM</div>
-      <h3>Wake + Hydrate</h3>
-      <p><strong>Supplements:</strong> Electrolytes</p>
-      <p><strong>Food:</strong> 16–20 oz water, optional lemon</p>
-      <p>Get light exposure immediately. This anchors cortisol rhythm and helps morning energy.</p>
-    </div>
+      <section id="dashboard">
+        <div class="section-head">
+          <h2>Dashboard</h2>
+          <small id="todayLabel">Today</small>
+        </div>
 
-    <div class="card">
-      <div class="time">6:30–7:00 AM</div>
-      <h3>Workout</h3>
-      <p><strong>Workout:</strong> Strength or cardio depending on day.</p>
-      <p>Keep it 30 minutes. Consistency beats destroying yourself.</p>
-    </div>
+        <div class="content">
+          <div class="dashboard-grid">
 
-    <div class="card">
-      <div class="time">7:30 AM</div>
-      <h3>Breakfast + AM Stack</h3>
-      <p><strong>Supplements:</strong> Zoloft, Adderall AM, Creatine, Omega-3, Multivitamin, CoQ10, Green Tea Extract.</p>
-      <p><strong>Food:</strong> Eggs, turkey sausage, Greek yogurt, oats, berries, toast, avocado, chia seeds, almond butter.</p>
-      <p><span class="bad">Remove:</span> NALT. <span class="gold">Limit:</span> Alpha-GPC max 1x/day. Caffeine max 150–200mg.</p>
-    </div>
+            <div class="card span2">
+              <div class="section-head">
+                <h2>Today’s Plan</h2>
+                <small id="dateBadge"></small>
+              </div>
+              <div id="todayPlan" class="row-list"></div>
+              <div class="button-row">
+                <a class="btn" href="#schedule">View Full Schedule ›</a>
+              </div>
+            </div>
 
-    <div class="card">
-      <div class="time">8:30 AM</div>
-      <h3>Commute</h3>
-      <p>No extra caffeine. Hydrate. Get mentally ready for prime deal hours.</p>
-    </div>
+            <div class="card">
+              <div class="section-head">
+                <h2>Today’s Progress</h2>
+              </div>
 
-    <div class="card">
-      <div class="time">9:00 AM–12:00 PM</div>
-      <h3>Prime Deal Hours</h3>
-      <p>No stimulant stacking. Keep water nearby. Don’t chase energy with more pills.</p>
-    </div>
+              <div class="progress-wrap">
+                <div class="ring" id="scoreRing">
+                  <div class="ring-inner">
+                    <div>
+                      <strong id="scoreText">0%</strong>
+                      <span>Completed</span>
+                    </div>
+                  </div>
+                </div>
 
-    <div class="card">
-      <div class="time">12:15 PM</div>
-      <h3>Lunch</h3>
-      <p><strong>Supplements:</strong> Berberine 500mg</p>
-      <p><strong>Food:</strong> Protein + controlled carbs + vegetables.</p>
-      <p>Do not go too low-carb here or you will crash later.</p>
-    </div>
+                <div class="progress-lines">
+                  <div class="progress-line"><span>☑️</span><span>Tasks Completed</span><span class="value" id="tasksLine">0 / 0</span></div>
+                  <div class="progress-line"><span>💊</span><span>Supplements</span><span class="value" id="suppLine">0 / 0</span></div>
+                  <div class="progress-line"><span>🍴</span><span>Meals</span><span class="value" id="mealsLine">0 / 4</span></div>
+                  <div class="progress-line"><span>🏋️</span><span>Workout</span><span class="value" id="workoutLine">0 / 1</span></div>
+                  <div class="progress-line"><span>💧</span><span>Water</span><span class="value" id="waterLine">0 / 120 oz</span></div>
+                  <div class="progress-line"><span>⚡</span><span>Steps</span><span class="value" id="stepsLine">0 / 10,000</span></div>
+                </div>
+              </div>
 
-    <div class="card">
-      <div class="time">12:30 PM</div>
-      <h3>Midday Focus</h3>
-      <p><strong>Supplements:</strong> Adderall PM if prescribed/needed.</p>
-      <p><span class="bad">No NALT.</span> Avoid extra caffeine unless absolutely necessary.</p>
-    </div>
+              <div class="streak-row">
+                <div class="streak-main">
+                  <span style="font-size:1.7rem;">🔥</span>
+                  <div><span id="streakText">0</span><br><small>DAY STREAK</small></div>
+                </div>
+                <div class="days" id="weekDots"></div>
+              </div>
+            </div>
 
-    <div class="card">
-      <div class="time">2:30 PM</div>
-      <h3>Crash Prevention</h3>
-      <p><strong>Food:</strong> Protein bar, cottage cheese, almonds, walnuts, beef jerky, Greek yogurt, string cheese.</p>
-      <p>Protein/fat snack prevents the 4PM crash.</p>
-    </div>
+            <div class="card">
+              <div class="section-head">
+                <h2>Weekly KPIs</h2>
+              </div>
+              <div class="mini-grid">
+                <div class="metric-card"><div>⚖️</div><span class="big" id="weightDelta">—</span><small>Weight</small></div>
+                <div class="metric-card"><div>📏</div><span class="big" id="waistDelta">—</span><small>Waist</small></div>
+                <div class="metric-card"><div>⚡</div><span class="big" id="energyAvg">—</span><small>Energy</small></div>
+                <div class="metric-card"><div>🟢</div><span class="big" id="complianceAvg">—</span><small>Compliance</small></div>
+              </div>
+              <div class="button-row">
+                <a class="btn" href="#kpi">View KPI Tracker ›</a>
+              </div>
+            </div>
 
-    <div class="card">
-      <div class="time">5:30–6:30 PM</div>
-      <h3>Dealer Dinner</h3>
-      <p><strong>Supplements:</strong> Berberine 500mg</p>
-      <p><strong>Food:</strong> Chicken, fish, lean beef, tofu, broccoli, asparagus, spinach, sweet potato, rice, barley.</p>
-      <p>This is your most important fat-loss meal. Protein first. Keep carbs controlled.</p>
-    </div>
+            <div class="card">
+              <div class="section-head">
+                <h2>Today’s Meals</h2>
+              </div>
+              <div id="mealList"></div>
+              <div class="button-row">
+                <a class="btn" href="#meals">View Meal Plan ›</a>
+              </div>
+            </div>
 
-    <div class="card">
-      <div class="time">8:30 PM</div>
-      <h3>Leave Work</h3>
-      <p>Start shutdown mode. No caffeine. No hype music. No work rage spiral.</p>
-    </div>
+            <div class="card">
+              <div class="section-head">
+                <h2>Today’s Workout</h2>
+              </div>
+              <div class="workout-figure">
+                <div>
+                  <div class="muscle" id="workoutTitle">Workout</div>
+                  <div class="body-icon">💪</div>
+                  <div class="subtle" id="workoutSub">Loading...</div>
+                </div>
+              </div>
+              <div class="card-pad" id="workoutPreview"></div>
+              <div class="button-row">
+                <a class="btn" href="#workouts">View Workout Plan ›</a>
+              </div>
+            </div>
 
-    <div class="card">
-      <div class="time">8:30–9:00 PM</div>
-      <h3>Drive Home</h3>
-      <p>Commute becomes decompression. Calm audio. Dim brightness. Tell your brain the workday is done.</p>
-    </div>
+            <div class="card">
+              <div class="section-head">
+                <h2>Macro Targets</h2>
+              </div>
+              <div class="macro-row">
+                <div class="macro-box"><div class="macro-icon">🔥</div><strong>2200–2400</strong><small>Calories</small></div>
+                <div class="macro-box"><div class="macro-icon">🥩</div><strong>200–220g</strong><small>Protein</small></div>
+                <div class="macro-box"><div class="macro-icon">🍚</div><strong>150–180g</strong><small>Carbs</small></div>
+                <div class="macro-box"><div class="macro-icon">🥑</div><strong>70–80g</strong><small>Fats</small></div>
+              </div>
+              <div class="bar-list">
+                <div class="bar-row"><span>Calories</span><div class="bar"><span id="calBar"></span></div><span id="calText">0 / 2200</span></div>
+                <div class="bar-row"><span>Protein</span><div class="bar"><span id="proBar"></span></div><span id="proText">0g / 220g</span></div>
+                <div class="bar-row"><span>Carbs</span><div class="bar"><span id="carbBar"></span></div><span id="carbText">0g / 150g</span></div>
+                <div class="bar-row"><span>Fats</span><div class="bar"><span id="fatBar"></span></div><span id="fatText">0g / 70g</span></div>
+              </div>
+              <div class="button-row">
+                <a class="btn" href="#macros">View Macro Plan ›</a>
+              </div>
+            </div>
 
-    <div class="card">
-      <div class="time">9:00 PM</div>
-      <h3>Arrive Home</h3>
-      <p><strong>If hungry:</strong> Greek yogurt, turkey slices, casein shake.</p>
-      <p><span class="bad">No junk. No carbs unless planned.</span></p>
-    </div>
+            <div class="card">
+              <div class="section-head">
+                <h2>Supplement Stack</h2>
+              </div>
+              <div class="stack-columns">
+                <div class="stack-col">
+                  <h4 class="good">✅ Keep</h4>
+                  <ul>
+                    <li>Zoloft Rx</li>
+                    <li>Adderall Rx</li>
+                    <li>Creatine</li>
+                    <li>Omega-3</li>
+                    <li>Multivitamin</li>
+                    <li>CoQ10</li>
+                    <li>Berberine 2x/day</li>
+                  </ul>
+                </div>
+                <div class="stack-col">
+                  <h4 class="good">⬆️ Add / Upgrade</h4>
+                  <ul>
+                    <li>Magnesium Glycinate</li>
+                    <li>Ashwagandha KSM-66</li>
+                    <li>Green Tea Extract</li>
+                    <li>Vitamin D3 + K2</li>
+                    <li>Zinc 15–30mg</li>
+                  </ul>
+                </div>
+                <div class="stack-col">
+                  <h4 class="bad">✖ Remove / Limit</h4>
+                  <ul>
+                    <li>Remove NALT AM</li>
+                    <li>Remove NALT PM</li>
+                    <li>Alpha-GPC max 1x/day</li>
+                    <li>Caffeine max 150–200mg</li>
+                    <li>No caffeine after 2PM</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="button-row">
+                <a class="btn" href="#stack">View Full Stack ›</a>
+              </div>
+            </div>
 
-    <div class="card">
-      <div class="time">9:15 PM</div>
-      <h3>Night Stack</h3>
-      <p><strong>Supplements:</strong> Magnesium Glycinate, Ashwagandha KSM-66, Glycine, Apigenin, Phosphatidylserine, Trazodone.</p>
-      <p>Main recovery, cortisol, and sleep stack.</p>
-    </div>
+            <div class="card">
+              <div class="section-head">
+                <h2>Habits & Tracking</h2>
+              </div>
+              <div id="habitList"></div>
+              <div class="button-row">
+                <a class="btn" href="#kpi">View Habit Tracker ›</a>
+              </div>
+            </div>
 
-    <div class="card">
-      <div class="time">10:15 PM</div>
-      <h3>Sleep</h3>
-      <p>Target 7.5–8 hours. Sleep is the fat-loss multiplier.</p>
-    </div>
+            <div class="card">
+              <div class="section-head">
+                <h2 class="bad">Hard Rules</h2>
+              </div>
+              <div id="rulePreview"></div>
+              <div class="button-row">
+                <a class="btn" href="#rules">View All Rules ›</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="kpi">
+        <div class="section-head">
+          <h2>KPI Tracker</h2>
+          <small>Autosaves on this phone/browser</small>
+        </div>
+
+        <div class="content">
+          <div class="card">
+            <div class="section-head">
+              <h2>Daily Inputs</h2>
+              <small>Update throughout the day</small>
+            </div>
+
+            <div class="input-grid">
+              <label class="input-box"><span>Weight</span><input data-metric="weight" type="number" step="0.1" placeholder="lbs"></label>
+              <label class="input-box"><span>Waist</span><input data-metric="waist" type="number" step="0.1" placeholder="inches"></label>
+              <label class="input-box"><span>Energy 1–10</span><input data-metric="energy" type="number" min="1" max="10" step="1" placeholder="1-10"></label>
+              <label class="input-box"><span>Water oz</span><input data-metric="water" type="number" min="0" step="1" placeholder="120"></label>
+              <label class="input-box"><span>Steps</span><input data-metric="steps" type="number" min="0" step="1" placeholder="10000"></label>
+              <label class="input-box"><span>Sleep Hours</span><input data-metric="sleep" type="number" min="0" step=".1" placeholder="8"></label>
+              <label class="input-box"><span>Calories</span><input data-metric="calories" type="number" min="0" step="1" placeholder="2200"></label>
+              <label class="input-box"><span>Protein g</span><input data-metric="protein" type="number" min="0" step="1" placeholder="220"></label>
+              <label class="input-box"><span>Carbs g</span><input data-metric="carbs" type="number" min="0" step="1" placeholder="150"></label>
+              <label class="input-box"><span>Fats g</span><input data-metric="fats" type="number" min="0" step="1" placeholder="70"></label>
+            </div>
+
+            <div class="button-row">
+              <button onclick="resetToday()">Reset Today</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="schedule">
+        <div class="section-head">
+          <h2>Daily Dealer Schedule</h2>
+          <small>9:00 AM–8:30 PM shift</small>
+        </div>
+        <div class="content">
+          <div class="full-grid" id="fullSchedule"></div>
+        </div>
+      </section>
+
+      <section id="stack">
+        <div class="section-head">
+          <h2>Supplement Stack</h2>
+          <small>No stimulant-stacking BS</small>
+        </div>
+        <div class="content">
+          <div class="full-grid">
+            <div class="info-card">
+              <h3>Keep</h3>
+              <ul>
+                <li>Zoloft as prescribed</li>
+                <li>Adderall as prescribed</li>
+                <li>Creatine</li>
+                <li>Omega-3</li>
+                <li>Multivitamin</li>
+                <li>CoQ10</li>
+                <li>Berberine 500mg 2x/day</li>
+                <li>Electrolytes</li>
+                <li>Glycine</li>
+                <li>Apigenin</li>
+                <li>Phosphatidylserine</li>
+                <li>Trazodone as prescribed</li>
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <h3>Add / Upgrade</h3>
+              <ul>
+                <li>Magnesium Glycinate 300–400mg at night</li>
+                <li>Ashwagandha KSM-66 600mg at night</li>
+                <li>Green Tea Extract EGCG 300–500mg in morning</li>
+                <li>Vitamin D3 + K2 if not already covered</li>
+                <li>Zinc 15–30mg if not already covered</li>
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <h3>Remove / Limit</h3>
+              <ul>
+                <li class="bad">Remove NALT AM</li>
+                <li class="bad">Remove NALT PM</li>
+                <li>Alpha-GPC max 1x/day optional</li>
+                <li>Caffeine max 150–200mg</li>
+                <li>No caffeine after 2PM</li>
+                <li>No random testosterone boosters</li>
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <h3>Medication Note</h3>
+              <div class="warning">
+                Because you use Zoloft, Adderall, and Trazodone, do not keep adding stimulant or mood-affecting supplements without clearing it with your prescriber.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="meals">
+        <div class="section-head">
+          <h2>Dealer Meal System</h2>
+          <small>Protein first. Carbs controlled.</small>
+        </div>
+        <div class="content">
+          <div class="success"><strong>Core Rule:</strong> Protein first. Control carbs. Moderate fats. No junk stacking.</div>
+          <br>
+          <div class="full-grid">
+            <div class="info-card">
+              <h3>Breakfast Options</h3>
+              <ul>
+                <li>Eggs + egg whites</li>
+                <li>Turkey sausage</li>
+                <li>Greek yogurt</li>
+                <li>Steel-cut oats</li>
+                <li>Whole-grain toast</li>
+                <li>Berries</li>
+                <li>Avocado</li>
+                <li>Chia seeds</li>
+                <li>Almond butter</li>
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <h3>Lunch Orders</h3>
+              <ul>
+                <li>Chipotle/Qdoba: bowl, double chicken or steak, light rice, fajita veggies, pico, skip sour cream</li>
+                <li>Jimmy John’s/Sub shop: unwich or whole grain, double meat, avocado, no heavy mayo</li>
+                <li>Chick-fil-A: grilled nuggets or grilled sandwich, fruit or salad, skip fries unless planned</li>
+                <li>Restaurant: grilled protein, vegetables, side rice or potato, light oil/butter</li>
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <h3>Office Snacks</h3>
+              <ul>
+                <li>Low-sugar protein bars</li>
+                <li>Beef jerky</li>
+                <li>Greek yogurt</li>
+                <li>Cottage cheese</li>
+                <li>Almonds or walnuts</li>
+                <li>String cheese</li>
+                <li>Protein shake</li>
+                <li>Apple + peanut butter</li>
+                <li>Hummus + carrots</li>
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <h3>Dinner Rules</h3>
+              <ul>
+                <li>Protein first</li>
+                <li>Vegetables always</li>
+                <li>Small carb if needed</li>
+                <li>No pasta-heavy meals</li>
+                <li>No fried food</li>
+                <li>No sugary drinks</li>
+                <li>After 9PM: protein only if needed</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workouts">
+        <div class="section-head">
+          <h2>Workout Plan</h2>
+          <small>30 minutes. Consistency wins.</small>
+        </div>
+        <div class="content">
+          <div class="full-grid" id="workoutGrid"></div>
+        </div>
+      </section>
+
+      <section id="macros">
+        <div class="section-head">
+          <h2>Macros + Cut Plan</h2>
+          <small>Base cut + aggressive cut</small>
+        </div>
+        <div class="content">
+          <div class="full-grid">
+            <div class="info-card">
+              <h3>Base Cut</h3>
+              <div class="macro-row">
+                <div class="macro-box"><div class="macro-icon">🔥</div><strong>2200–2400</strong><small>Calories</small></div>
+                <div class="macro-box"><div class="macro-icon">🥩</div><strong>200–220g</strong><small>Protein</small></div>
+                <div class="macro-box"><div class="macro-icon">🍚</div><strong>150–180g</strong><small>Carbs</small></div>
+                <div class="macro-box"><div class="macro-icon">🥑</div><strong>70–80g</strong><small>Fats</small></div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <h3>Aggressive Cut — 3–4 Weeks Max</h3>
+              <div class="macro-row">
+                <div class="macro-box"><div class="macro-icon">🔥</div><strong>1900–2100</strong><small>Calories</small></div>
+                <div class="macro-box"><div class="macro-icon">🥩</div><strong>220–240g</strong><small>Protein</small></div>
+                <div class="macro-box"><div class="macro-icon">🍚</div><strong>100–130g</strong><small>Carbs</small></div>
+                <div class="macro-box"><div class="macro-icon">🥑</div><strong>60–70g</strong><small>Fats</small></div>
+              </div>
+              <div class="warning">
+                <strong>Aggressive Cut Rules:</strong> No alcohol. No cheat meals during the week. Carbs mainly breakfast and lunch. Dinner = protein + vegetables.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="rules">
+        <div class="section-head">
+          <h2>Hard Rules</h2>
+          <small>The system wins</small>
+        </div>
+        <div class="content">
+          <div class="card">
+            <div id="allRules"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      🏆 <span class="green">Focus. Execute. Repeat.</span> &nbsp; | &nbsp; You don’t need more motivation. You need a system.
+    </footer>
 
   </div>
-</section>
 
-<section id="stack">
-  <h2>Supplement Stack</h2>
+  <script>
+    const STORAGE_KEY = "dealerCutSystem_v2";
 
-  <div class="grid">
-    <div class="card">
-      <h3>Keep</h3>
-      <ul>
-        <li>Zoloft as prescribed</li>
-        <li>Adderall as prescribed</li>
-        <li>Creatine</li>
-        <li>Omega-3</li>
-        <li>Multivitamin</li>
-        <li>CoQ10</li>
-        <li>Berberine 500mg 2x/day</li>
-        <li>Electrolytes</li>
-        <li>Glycine</li>
-        <li>Apigenin</li>
-        <li>Phosphatidylserine</li>
-        <li>Trazodone as prescribed</li>
-      </ul>
-    </div>
+    const planItems = [
+      { id:"wake", icon:"💧", time:"6:15 AM", title:"Wake + Hydrate", sub:"Electrolytes + 16–20 oz water", detail:"Get light exposure immediately. This anchors cortisol rhythm and helps morning energy." },
+      { id:"workout", icon:"🏋️", time:"6:30–7:00 AM", title:"Workout", sub:"Strength or cardio, 30 minutes", detail:"Keep it 30 minutes. Consistency beats destroying yourself." },
+      { id:"breakfast", icon:"🍳", time:"7:30 AM", title:"Breakfast + AM Stack", sub:"Supplements + whole food meal", detail:"Zoloft, Adderall AM, Creatine, Omega-3, Multivitamin, CoQ10, Green Tea Extract. Food: eggs, turkey sausage, Greek yogurt, oats, berries, toast, avocado, chia seeds, almond butter." },
+      { id:"lunch", icon:"🥗", time:"12:15 PM", title:"Lunch", sub:"Berberine 500mg + protein meal", detail:"Protein + controlled carbs + vegetables. Do not go too low-carb here or you will crash later." },
+      { id:"snack", icon:"🥜", time:"2:30 PM", title:"Crash Prevention", sub:"Protein / fat snack", detail:"Protein bar, cottage cheese, almonds, walnuts, beef jerky, Greek yogurt, or string cheese." },
+      { id:"dinner", icon:"🍱", time:"5:30–6:30 PM", title:"Dealer Dinner", sub:"Berberine 500mg + protein meal", detail:"Chicken, fish, lean beef, tofu, broccoli, asparagus, spinach, sweet potato, rice, or barley. Protein first." },
+      { id:"nightStack", icon:"🌙", time:"9:15 PM", title:"Night Stack", sub:"Recovery + sleep supplements", detail:"Magnesium Glycinate, Ashwagandha KSM-66, Glycine, Apigenin, Phosphatidylserine, Trazodone." },
+      { id:"sleep", icon:"🛏️", time:"10:15 PM", title:"Sleep", sub:"7.5–8 hours of quality sleep", detail:"Sleep is the fat-loss multiplier." }
+    ];
 
-    <div class="card">
-      <h3>Add / Upgrade</h3>
-      <ul>
-        <li>Magnesium Glycinate 300–400mg at night</li>
-        <li>Ashwagandha KSM-66 600mg at night</li>
-        <li>Green Tea Extract EGCG 300–500mg in morning</li>
-        <li>Vitamin D3 + K2 if not already covered</li>
-        <li>Zinc 15–30mg if not already covered</li>
-      </ul>
-    </div>
+    const fullScheduleExtra = [
+      { icon:"🚗", time:"8:30 AM", title:"Commute", detail:"No extra caffeine. Hydrate. Get mentally ready for prime deal hours." },
+      { icon:"💼", time:"9:00 AM–12:00 PM", title:"Prime Deal Hours", detail:"No stimulant stacking. Keep water nearby. Don’t chase energy with more pills." },
+      { icon:"🧠", time:"12:30 PM", title:"Midday Focus", detail:"Adderall PM only if prescribed/needed. No NALT. Avoid extra caffeine unless absolutely necessary." },
+      { icon:"🏁", time:"8:30 PM", title:"Leave Work", detail:"Start shutdown mode. No caffeine. No hype music. No work rage spiral." },
+      { icon:"🚙", time:"8:30–9:00 PM", title:"Drive Home", detail:"Commute becomes decompression. Calm audio. Dim brightness." },
+      { icon:"🏠", time:"9:00 PM", title:"Arrive Home", detail:"If hungry: Greek yogurt, turkey slices, or casein shake. No junk. No carbs unless planned." }
+    ];
 
-    <div class="card">
-      <h3>Remove / Limit</h3>
-      <ul>
-        <li><span class="bad">Remove NALT AM</span></li>
-        <li><span class="bad">Remove NALT PM</span></li>
-        <li>Alpha-GPC max 1x/day optional</li>
-        <li>Caffeine max 150–200mg</li>
-        <li>No caffeine after 2PM</li>
-        <li>No random testosterone boosters</li>
-      </ul>
-    </div>
-  </div>
+    const meals = [
+      { id:"mealBreakfast", icon:"🍳", title:"Breakfast", sub:"Protein + clean carbs" },
+      { id:"mealLunch", icon:"🥗", title:"Lunch", sub:"Protein bowl / controlled carbs" },
+      { id:"mealSnack", icon:"🥜", title:"Snack", sub:"Protein / fat crash prevention" },
+      { id:"mealDinner", icon:"🍱", title:"Dinner", sub:"Protein + vegetables" }
+    ];
 
-  <div class="danger">
-    <strong>Medication note:</strong> Because you use Zoloft, Adderall, and Trazodone, do not keep adding stimulant or mood-affecting supplements without clearing it with your prescriber.
-  </div>
-</section>
+    const workouts = [
+      { day:1, title:"Monday — Chest + Triceps", muscle:"Chest + Triceps", icon:"💪", moves:["Incline dumbbell press — 4x8–12","Flat bench press — 3x8–10","Push-ups — 2 burnout sets","Tricep rope pushdown — 3x12"], note:"Upper chest focus helps improve chest-fat appearance." },
+      { day:2, title:"Tuesday — Fat Burn", muscle:"Fat Burn", icon:"🏃", moves:["Incline treadmill walk — 20–30 min","Optional light intervals"], note:"Low-stress cardio. Don’t destroy recovery." },
+      { day:3, title:"Wednesday — Back + Biceps", muscle:"Back + Biceps", icon:"🏋️", moves:["Lat pulldown — 4x10","Seated row — 3x10","Dumbbell curls — 3x12"], note:"Wider back makes waist look smaller." },
+      { day:4, title:"Thursday — Fat Burn", muscle:"Fat Burn", icon:"🏃", moves:["Incline treadmill walk — 20–30 min"], note:"Simple sweat. Stay consistent." },
+      { day:5, title:"Friday — Shoulders + Core", muscle:"Shoulders + Core", icon:"🧍", moves:["Shoulder press — 4x8–10","Lateral raises — 3x12","Hanging leg raises — 3 sets","Planks — 2 sets"], note:"Build the V shape. Tighten the core." },
+      { day:6, title:"Saturday — Active Recovery", muscle:"Active Recovery", icon:"🚶", moves:["Walk","Yard work","Mobility","Light movement"], note:"Keep moving without frying yourself." },
+      { day:0, title:"Sunday — Off + Review", muscle:"Off + Review", icon:"📋", moves:["Rest","Measure waist","Review weight average","Plan meals"], note:"Reset and prepare the week." }
+    ];
 
-<section id="meals">
-  <h2>Dealer Meal System</h2>
+    const habitChecks = [
+      { id:"walkAfterDinner", icon:"🚶", title:"10–15 Min Walk After Dinner" },
+      { id:"noLateCaffeine", icon:"☕", title:"No Caffeine After 2PM" },
+      { id:"cleanRecovery", icon:"🛡️", title:"Next Meal Clean If Off Plan" }
+    ];
 
-  <div class="rule">
-    <strong>Core Rule:</strong> Protein first. Control carbs. Moderate fats. No junk stacking.
-  </div>
+    const rules = [
+      { type:"bad", icon:"🚫", text:"No Primal Viking / testosterone booster." },
+      { type:"bad", icon:"🚫", text:"No alcohol during aggressive cut." },
+      { type:"bad", icon:"🚫", text:"No late-night carbs." },
+      { type:"bad", icon:"🚫", text:"No caffeine after 2PM." },
+      { type:"bad", icon:"🚫", text:"No NALT while using Adderall." },
+      { type:"good", icon:"✅", text:"Protein target is non-negotiable." },
+      { type:"good", icon:"✅", text:"Sleep is the fat-loss multiplier." },
+      { type:"good", icon:"✅", text:"8,000–10,000 steps/day." },
+      { type:"good", icon:"✅", text:"10–15 minute walk after dinner whenever possible." },
+      { type:"good", icon:"✅", text:"If you go off plan, next meal is clean protein + vegetables. No restart-Monday BS." }
+    ];
 
-  <div class="grid">
-    <div class="card">
-      <h3>Breakfast Options</h3>
-      <ul>
-        <li>Eggs + egg whites</li>
-        <li>Turkey sausage</li>
-        <li>Greek yogurt</li>
-        <li>Steel-cut oats</li>
-        <li>Whole-grain toast</li>
-        <li>Berries</li>
-        <li>Avocado</li>
-        <li>Chia seeds</li>
-        <li>Almond butter</li>
-      </ul>
-    </div>
+    const goals = {
+      water: 120,
+      steps: 10000,
+      sleep: 8,
+      calories: 2200,
+      protein: 220,
+      carbs: 150,
+      fats: 70
+    };
 
-    <div class="card">
-      <h3>Lunch Orders</h3>
-      <ul>
-        <li>Chipotle/Qdoba: bowl, double chicken or steak, light rice, fajita veggies, pico, skip sour cream</li>
-        <li>Jimmy John’s/Sub shop: unwich or whole grain, double meat, avocado, no heavy mayo</li>
-        <li>Chick-fil-A: grilled nuggets or grilled sandwich, fruit or salad, skip fries unless planned</li>
-        <li>Restaurant: grilled protein, vegetables, side rice or potato, light oil/butter</li>
-      </ul>
-    </div>
+    function todayKey(date = new Date()) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
 
-    <div class="card">
-      <h3>Office Snacks</h3>
-      <ul>
-        <li>Low-sugar protein bars</li>
-        <li>Beef jerky</li>
-        <li>Greek yogurt</li>
-        <li>Cottage cheese</li>
-        <li>Almonds or walnuts</li>
-        <li>String cheese</li>
-        <li>Protein shake</li>
-        <li>Apple + peanut butter</li>
-        <li>Hummus + carrots</li>
-      </ul>
-    </div>
+    function prettyDate(date = new Date()) {
+      return date.toLocaleDateString(undefined, { weekday:"long", month:"short", day:"numeric" });
+    }
 
-    <div class="card">
-      <h3>Dinner Rules</h3>
-      <ul>
-        <li>Protein first</li>
-        <li>Vegetables always</li>
-        <li>Small carb if needed</li>
-        <li>No pasta-heavy meals</li>
-        <li>No fried food</li>
-        <li>No sugary drinks</li>
-        <li>After 9PM: protein only if needed</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    function readStore() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch {
+        return {};
+      }
+    }
 
-<section id="workouts">
-  <h2>Workout Plan</h2>
+    function writeStore(store) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+    }
 
-  <div class="grid">
-    <div class="card">
-      <h3>Monday — Chest + Triceps</h3>
-      <ul>
-        <li>Incline dumbbell press — 4x8–12</li>
-        <li>Flat bench press — 3x8–10</li>
-        <li>Push-ups — 2 burnout sets</li>
-        <li>Tricep rope pushdown — 3x12</li>
-      </ul>
-      <p>Upper chest focus helps improve chest-fat appearance.</p>
-    </div>
+    function defaultLog() {
+      return {
+        checks: {},
+        metrics: {
+          weight: "",
+          waist: "",
+          energy: "",
+          water: "",
+          steps: "",
+          sleep: "",
+          calories: "",
+          protein: "",
+          carbs: "",
+          fats: ""
+        }
+      };
+    }
 
-    <div class="card">
-      <h3>Tuesday — Fat Burn</h3>
-      <ul>
-        <li>Incline treadmill walk — 20–30 min</li>
-        <li>Optional light intervals</li>
-      </ul>
-    </div>
+    function getLog(date = todayKey()) {
+      const store = readStore();
+      if (!store[date]) {
+        store[date] = defaultLog();
+        writeStore(store);
+      }
+      return store[date];
+    }
 
-    <div class="card">
-      <h3>Wednesday — Back + Biceps</h3>
-      <ul>
-        <li>Lat pulldown — 4x10</li>
-        <li>Seated row — 3x10</li>
-        <li>Dumbbell curls — 3x12</li>
-      </ul>
-      <p>Wider back makes waist look smaller.</p>
-    </div>
+    function saveLog(log, date = todayKey()) {
+      const store = readStore();
+      store[date] = log;
+      writeStore(store);
+    }
 
-    <div class="card">
-      <h3>Thursday — Fat Burn</h3>
-      <ul>
-        <li>Incline treadmill walk — 20–30 min</li>
-      </ul>
-    </div>
+    function num(value) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : 0;
+    }
 
-    <div class="card">
-      <h3>Friday — Shoulders + Core</h3>
-      <ul>
-        <li>Shoulder press — 4x8–10</li>
-        <li>Lateral raises — 3x12</li>
-        <li>Hanging leg raises — 3 sets</li>
-        <li>Planks — 2 sets</li>
-      </ul>
-    </div>
+    function pct(value, goal) {
+      return Math.min(100, Math.round((num(value) / goal) * 100));
+    }
 
-    <div class="card">
-      <h3>Saturday — Active Recovery</h3>
-      <ul>
-        <li>Walk</li>
-        <li>Yard work</li>
-        <li>Mobility</li>
-        <li>Light movement</li>
-      </ul>
-    </div>
+    function checkedCount(ids, log) {
+      return ids.filter(id => !!log.checks[id]).length;
+    }
 
-    <div class="card">
-      <h3>Sunday — Off + Review</h3>
-      <ul>
-        <li>Rest</li>
-        <li>Measure waist</li>
-        <li>Review weight average</li>
-        <li>Plan meals</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    function scoreForLog(log) {
+      const taskPct = checkedCount(planItems.map(x => x.id), log) / planItems.length;
+      const mealPct = checkedCount(meals.map(x => x.id), log) / meals.length;
+      const waterPct = Math.min(1, num(log.metrics.water) / goals.water);
+      const stepsPct = Math.min(1, num(log.metrics.steps) / goals.steps);
+      const sleepPct = Math.min(1, num(log.metrics.sleep) / goals.sleep);
 
-<section id="macros">
-  <h2>Macros + Cut Plan</h2>
+      const score = Math.round(((taskPct * .36) + (mealPct * .22) + (waterPct * .14) + (stepsPct * .14) + (sleepPct * .14)) * 100);
+      return Math.max(0, Math.min(100, score));
+    }
 
-  <h3>Base Cut</h3>
-  <div class="macro-box">
-    <div class="macro"><strong>2200–2400</strong>Calories</div>
-    <div class="macro"><strong>200–220g</strong>Protein</div>
-    <div class="macro"><strong>150–180g</strong>Carbs</div>
-    <div class="macro"><strong>70–80g</strong>Fats</div>
-  </div>
+    function lastNDates(n) {
+      const arr = [];
+      const now = new Date();
+      for (let i = n - 1; i >= 0; i--) {
+        const d = new Date(now);
+        d.setDate(now.getDate() - i);
+        arr.push(todayKey(d));
+      }
+      return arr;
+    }
 
-  <h3>Aggressive Cut — 3–4 Weeks Max</h3>
-  <div class="macro-box">
-    <div class="macro"><strong>1900–2100</strong>Calories</div>
-    <div class="macro"><strong>220–240g</strong>Protein</div>
-    <div class="macro"><strong>100–130g</strong>Carbs</div>
-    <div class="macro"><strong>60–70g</strong>Fats</div>
-  </div>
+    function calculateStreak() {
+      const store = readStore();
+      let streak = 0;
+      const now = new Date();
 
-  <div class="danger">
-    <strong>Aggressive Cut Rules:</strong>
-    No alcohol. No cheat meals during the week. Carbs mainly breakfast and lunch.
-    Dinner = protein + vegetables. Night food = protein only if needed.
-  </div>
-</section>
+      for (let i = 0; i < 365; i++) {
+        const d = new Date(now);
+        d.setDate(now.getDate() - i);
+        const key = todayKey(d);
+        const log = store[key];
+        if (log && scoreForLog(log) >= 75) {
+          streak++;
+        } else {
+          break;
+        }
+      }
 
-<section id="kpi">
-  <h2>KPI Tracker</h2>
+      return streak;
+    }
 
-  <div class="grid">
-    <div class="card">
-      <h3>Track Weekly</h3>
-      <ul>
-        <li>Daily scale weight, use weekly average</li>
-        <li>Waist measurement 1x/week at belly button</li>
-        <li>Front and side mirror photos 2x/week</li>
-        <li>Energy score 1–10 daily</li>
-        <li>Compliance percentage: diet, workouts, steps, sleep</li>
-      </ul>
-    </div>
+    function renderTodayPlan() {
+      const log = getLog();
+      document.getElementById("todayPlan").innerHTML = planItems.map(item => `
+        <div class="task-row">
+          <div class="icon">${item.icon}</div>
+          <div class="time">${item.time}</div>
+          <div>
+            <div class="task-title">${item.title}</div>
+            <div class="task-sub">${item.sub}</div>
+          </div>
+          <input class="check" type="checkbox" data-check="${item.id}" ${log.checks[item.id] ? "checked" : ""}>
+        </div>
+      `).join("");
+    }
 
-    <div class="card">
-      <h3>Adjustment Rules</h3>
-      <ul>
-        <li>If weight is not dropping, reduce calories by 200/day.</li>
-        <li>If energy crashes, aggressive cut may be too hard.</li>
-        <li>If waist is shrinking, do not change anything.</li>
-        <li>If workouts suffer badly, increase carbs around breakfast/lunch.</li>
-        <li>If sleep sucks, remove late caffeine/stimulation first.</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    function renderMeals() {
+      const log = getLog();
+      document.getElementById("mealList").innerHTML = meals.map(meal => `
+        <div class="meal-row">
+          <div class="icon">${meal.icon}</div>
+          <div>
+            <div class="task-title">${meal.title}</div>
+            <div class="task-sub">${log.checks[meal.id] ? "Complete" : meal.sub}</div>
+          </div>
+          <div class="food-plate"></div>
+          <input class="check" type="checkbox" data-check="${meal.id}" ${log.checks[meal.id] ? "checked" : ""}>
+        </div>
+      `).join("");
+    }
 
-<section id="rules">
-  <h2>Hard Rules</h2>
+    function renderHabits() {
+      const log = getLog();
+      const water = num(log.metrics.water);
+      const steps = num(log.metrics.steps);
+      const sleep = num(log.metrics.sleep);
 
-  <div class="danger">No Primal Viking/testosterone booster.</div>
-  <div class="danger">No alcohol during aggressive cut.</div>
-  <div class="danger">No late-night carbs.</div>
-  <div class="danger">No caffeine after 2PM.</div>
-  <div class="danger">No NALT while using Adderall.</div>
-  <div class="rule">Protein target is non-negotiable.</div>
-  <div class="rule">Sleep is the fat-loss multiplier.</div>
-  <div class="rule">8,000–10,000 steps/day.</div>
-  <div class="rule">10–15 minute walk after dinner whenever possible.</div>
-  <div class="rule">If you go off plan, next meal is clean protein + vegetables. No “restart Monday” BS.</div>
-</section>
+      const metricRows = [
+        { icon:"🔥", title:"8,000–10,000 Steps", sub:`${steps.toLocaleString()} / ${goals.steps.toLocaleString()}`, done: steps >= 8000 },
+        { icon:"🌙", title:"Sleep 7.5–8 Hours", sub:`${sleep || 0} / ${goals.sleep} hrs`, done: sleep >= 7.5 },
+        { icon:"💧", title:"Water 120 oz", sub:`${water || 0} oz`, done: water >= goals.water }
+      ];
 
-</main>
+      const metricHtml = metricRows.map(row => `
+        <div class="rule-row ${row.done ? "good-rule" : ""}">
+          <div class="icon">${row.icon}</div>
+          <div>
+            <div>${row.title}</div>
+            <div class="task-sub ${row.done ? "good" : "gold"}">${row.sub}</div>
+          </div>
+          <div class="icon">${row.done ? "✅" : "🟠"}</div>
+        </div>
+      `).join("");
 
-<footer>
-  Dealer Cut System — Phase 2 Build
-</footer>
+      const checkHtml = habitChecks.map(h => `
+        <div class="rule-row">
+          <div class="icon">${h.icon}</div>
+          <div>${h.title}</div>
+          <input class="check" type="checkbox" data-check="${h.id}" ${log.checks[h.id] ? "checked" : ""}>
+        </div>
+      `).join("");
 
+      document.getElementById("habitList").innerHTML = metricHtml + checkHtml;
+    }
+
+    function renderRules() {
+      const preview = rules.slice(0, 7).map(rule => `
+        <div class="rule-row ${rule.type === "bad" ? "bad-rule" : "good-rule"}">
+          <div class="icon">${rule.icon}</div>
+          <div>${rule.text}</div>
+          <div></div>
+        </div>
+      `).join("");
+
+      const all = rules.map(rule => `
+        <div class="rule-row ${rule.type === "bad" ? "bad-rule" : "good-rule"}">
+          <div class="icon">${rule.icon}</div>
+          <div>${rule.text}</div>
+          <div></div>
+        </div>
+      `).join("");
+
+      document.getElementById("rulePreview").innerHTML = preview;
+      document.getElementById("allRules").innerHTML = all;
+    }
+
+    function renderFullSchedule() {
+      const combined = [
+        planItems[0],
+        planItems[1],
+        planItems[2],
+        fullScheduleExtra[0],
+        fullScheduleExtra[1],
+        planItems[3],
+        fullScheduleExtra[2],
+        planItems[4],
+        planItems[5],
+        fullScheduleExtra[3],
+        fullScheduleExtra[4],
+        fullScheduleExtra[5],
+        planItems[6],
+        planItems[7]
+      ];
+
+      document.getElementById("fullSchedule").innerHTML = combined.map(item => `
+        <div class="info-card">
+          <h3>${item.icon || ""} ${item.time}</h3>
+          <strong class="blue">${item.title}</strong>
+          <p class="subtle">${item.detail || item.sub || ""}</p>
+        </div>
+      `).join("");
+    }
+
+    function renderWorkout() {
+      const day = new Date().getDay();
+      const workout = workouts.find(w => w.day === day) || workouts[0];
+
+      document.getElementById("workoutTitle").textContent = workout.muscle;
+      document.getElementById("workoutSub").textContent = workout.note;
+      document.querySelector(".body-icon").textContent = workout.icon;
+
+      document.getElementById("workoutPreview").innerHTML = `
+        <ul>
+          ${workout.moves.map(m => `<li>${m}</li>`).join("")}
+        </ul>
+      `;
+
+      document.getElementById("workoutGrid").innerHTML = workouts.map(w => `
+        <div class="info-card">
+          <h3>${w.icon} ${w.title}</h3>
+          <ul>${w.moves.map(m => `<li>${m}</li>`).join("")}</ul>
+          <p class="subtle">${w.note}</p>
+        </div>
+      `).join("");
+    }
+
+    function renderMetricsInputs() {
+      const log = getLog();
+      document.querySelectorAll("[data-metric]").forEach(input => {
+        const key = input.dataset.metric;
+        input.value = log.metrics[key] ?? "";
+      });
+    }
+
+    function renderProgress() {
+      const log = getLog();
+      const score = scoreForLog(log);
+
+      const planIds = planItems.map(x => x.id);
+      const mealIds = meals.map(x => x.id);
+      const suppIds = ["breakfast", "lunch", "dinner", "nightStack"];
+      const tasksDone = checkedCount(planIds, log);
+      const mealsDone = checkedCount(mealIds, log);
+      const suppDone = checkedCount(suppIds, log);
+      const workoutDone = log.checks.workout ? 1 : 0;
+
+      const water = num(log.metrics.water);
+      const steps = num(log.metrics.steps);
+
+      document.getElementById("scoreText").textContent = score + "%";
+      document.getElementById("topScore").textContent = score + "%";
+      document.getElementById("scoreRing").style.background = `conic-gradient(var(--green) ${score}%, #24331a ${score}%)`;
+
+      document.getElementById("tasksLine").textContent = `${tasksDone} / ${planItems.length}`;
+      document.getElementById("mealsLine").textContent = `${mealsDone} / ${meals.length}`;
+      document.getElementById("suppLine").textContent = `${suppDone} / ${suppIds.length}`;
+      document.getElementById("workoutLine").textContent = `${workoutDone} / 1`;
+      document.getElementById("waterLine").textContent = `${water || 0} / ${goals.water} oz`;
+      document.getElementById("stepsLine").textContent = `${steps.toLocaleString()} / ${goals.steps.toLocaleString()}`;
+
+      const streak = calculateStreak();
+      document.getElementById("streakText").textContent = streak;
+      document.getElementById("topStreak").textContent = streak;
+
+      const store = readStore();
+      const labels = ["M","T","W","T","F","S","S"];
+      const dates = lastNDates(7);
+      document.getElementById("weekDots").innerHTML = dates.map((date, index) => {
+        const log = store[date];
+        const done = log && scoreForLog(log) >= 75;
+        return `<div class="day-dot ${done ? "done" : ""}">${labels[index]}</div>`;
+      }).join("");
+
+      updateMacroBars(log);
+      updateWeeklyKpis();
+    }
+
+    function updateMacroBars(log) {
+      const metrics = log.metrics;
+
+      const values = [
+        ["cal", "calories", goals.calories, ""],
+        ["pro", "protein", goals.protein, "g"],
+        ["carb", "carbs", goals.carbs, "g"],
+        ["fat", "fats", goals.fats, "g"]
+      ];
+
+      values.forEach(([prefix, key, goal, suffix]) => {
+        const value = num(metrics[key]);
+        const percent = pct(value, goal);
+        document.getElementById(prefix + "Bar").style.width = percent + "%";
+        document.getElementById(prefix + "Text").textContent = `${value || 0}${suffix} / ${goal}${suffix}`;
+      });
+    }
+
+    function updateWeeklyKpis() {
+      const store = readStore();
+      const dates = lastNDates(7);
+      const logs = dates.map(d => store[d]).filter(Boolean);
+
+      const numeric = (key) => logs.map(l => num(l.metrics[key])).filter(v => v > 0);
+
+      const weights = numeric("weight");
+      const waists = numeric("waist");
+      const energies = numeric("energy");
+
+      const complianceScores = logs.map(scoreForLog).filter(v => v > 0);
+
+      const weightDelta = weights.length >= 2 ? (weights[weights.length - 1] - weights[0]).toFixed(1) + " lbs" : "—";
+      const waistDelta = waists.length >= 2 ? (waists[waists.length - 1] - waists[0]).toFixed(2) + " in" : "—";
+      const energyAvg = energies.length ? (energies.reduce((a,b) => a + b, 0) / energies.length).toFixed(1) : "—";
+      const complianceAvg = complianceScores.length ? Math.round(complianceScores.reduce((a,b) => a + b, 0) / complianceScores.length) + "%" : "—";
+
+      document.getElementById("weightDelta").textContent = weightDelta;
+      document.getElementById("waistDelta").textContent = waistDelta;
+      document.getElementById("energyAvg").textContent = energyAvg;
+      document.getElementById("complianceAvg").textContent = complianceAvg;
+    }
+
+    function wireEvents() {
+      document.querySelectorAll("[data-check]").forEach(input => {
+        input.addEventListener("change", e => {
+          const log = getLog();
+          log.checks[e.target.dataset.check] = e.target.checked;
+          saveLog(log);
+          renderAll(false);
+        });
+      });
+
+      document.querySelectorAll("[data-metric]").forEach(input => {
+        input.addEventListener("input", e => {
+          const log = getLog();
+          log.metrics[e.target.dataset.metric] = e.target.value;
+          saveLog(log);
+          renderProgress();
+          renderHabits();
+        });
+      });
+    }
+
+    function resetToday() {
+      if (!confirm("Reset today's checkboxes and inputs?")) return;
+      const store = readStore();
+      store[todayKey()] = defaultLog();
+      writeStore(store);
+      renderAll();
+    }
+
+    function renderAll(resetInputs = true) {
+      const now = new Date();
+      document.getElementById("todayLabel").textContent = prettyDate(now);
+      document.getElementById("dateBadge").textContent = prettyDate(now);
+
+      renderTodayPlan();
+      renderMeals();
+      renderHabits();
+      renderRules();
+      renderFullSchedule();
+      renderWorkout();
+      if (resetInputs) renderMetricsInputs();
+      renderProgress();
+      wireEvents();
+    }
+
+    renderAll();
+  </script>
 </body>
 </html>
