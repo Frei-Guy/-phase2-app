@@ -1,492 +1,585 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#07101f">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>Phase 2 V4</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dealer Cut System</title>
 
-<style>
-:root{
---bg:#07101f;
---card:#111827;
---text:#f8fafc;
---muted:#94a3b8;
---line:#263244;
---blue:#38bdf8;
---green:#22c55e;
---red:#ef4444;
---yellow:#facc15;
-}
+  <style>
+    :root {
+      --bg: #070707;
+      --card: #141414;
+      --card2: #1d1d1d;
+      --text: #f5f5f5;
+      --muted: #b8b8b8;
+      --green: #38d66b;
+      --red: #ff4d4d;
+      --gold: #f5b942;
+      --blue: #4da3ff;
+      --border: #2a2a2a;
+    }
 
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
 
-body{
-margin:0;
-background:linear-gradient(180deg,#07101f,#020617);
-color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-padding:16px 14px 90px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #050505, #111);
+      color: var(--text);
+      line-height: 1.5;
+    }
 
-h1{margin:0 0 6px;font-size:26px}
-h2{margin:0 0 10px;font-size:20px}
-h3{margin:14px 0 6px;font-size:15px;color:#dbeafe}
+    header {
+      padding: 28px 18px 18px;
+      text-align: center;
+      background: radial-gradient(circle at top, #202020, #070707);
+      border-bottom: 1px solid var(--border);
+    }
 
-.card{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:16px;
-padding:14px;
-margin:12px 0;
-}
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--green);
+    }
 
-.row{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
+    header p {
+      margin: 10px auto 0;
+      max-width: 720px;
+      color: var(--muted);
+    }
 
-input,select,textarea{
-width:100%;
-background:#020617;
-border:1px solid var(--line);
-color:var(--text);
-border-radius:10px;
-padding:12px;
-font-size:15px;
-margin-top:6px;
-}
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      padding: 10px;
+      background: rgba(10, 10, 10, 0.96);
+      border-bottom: 1px solid var(--border);
+    }
 
-textarea{min-height:80px}
+    nav a {
+      flex: 0 0 auto;
+      color: var(--text);
+      text-decoration: none;
+      background: var(--card2);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+    }
 
-button{
-width:100%;
-padding:14px;
-border:0;
-border-radius:12px;
-font-weight:900;
-background:var(--blue);
-margin-top:8px;
-}
+    nav a:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
 
-.check{
-display:flex;
-gap:10px;
-background:#0b1220;
-padding:10px;
-border-radius:10px;
-margin:6px 0;
-}
+    main {
+      max-width: 950px;
+      margin: auto;
+      padding: 18px;
+    }
 
-.check input{width:22px;height:22px}
+    section {
+      margin: 22px 0;
+      padding: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
 
-.score{
-font-size:40px;
-font-weight:900;
-margin:4px 0;
-}
+    h2 {
+      margin-top: 0;
+      color: var(--green);
+      font-size: 1.5rem;
+    }
 
-.nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:4px;
-background:#020617;
-padding:8px;
-}
+    h3 {
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
 
-.nav button{
-font-size:11px;
-padding:10px 4px;
-background:#111827;
-color:white;
-border:1px solid var(--line);
-margin:0;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
 
-.hidden{display:none}
-</style>
+    .card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 15px;
+    }
+
+    .time {
+      color: var(--blue);
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      margin: 3px 4px 3px 0;
+      background: #252525;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .good { color: var(--green); }
+    .bad { color: var(--red); }
+    .gold { color: var(--gold); }
+    .blue { color: var(--blue); }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 7px;
+    }
+
+    .rule {
+      border-left: 4px solid var(--green);
+      padding: 10px 12px;
+      background: #101910;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    .danger {
+      border-left: 4px solid var(--red);
+      padding: 10px 12px;
+      background: #1b1010;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    .macro-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .macro {
+      background: #101010;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .macro strong {
+      display: block;
+      color: var(--green);
+      font-size: 1.2rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>Phase 2 V4</h1>
+<header>
+  <h1>🔥 Dealer Cut System</h1>
+  <p>
+    Built for a 9:00 AM–8:30 PM dealership schedule with a 30-minute drive home.
+    Goal: lose beer belly, reduce chest fat, improve morning energy, control stress/cortisol, and stay sharp.
+  </p>
+</header>
 
-<section id="today">
-<div class="card">
+<nav>
+  <a href="#schedule">Schedule</a>
+  <a href="#stack">Stack</a>
+  <a href="#meals">Meals</a>
+  <a href="#workouts">Workouts</a>
+  <a href="#macros">Macros</a>
+  <a href="#kpi">KPIs</a>
+  <a href="#rules">Rules</a>
+</nav>
 
-<h2>Today</h2>
+<main>
 
-<label>Date</label>
-<input id="date" type="date">
+<section id="schedule">
+  <h2>Daily Dealer Schedule</h2>
 
-<label>Weight</label>
-<input id="weight">
+  <div class="grid">
 
-<label>Sleep</label>
-<input id="sleep">
+    <div class="card">
+      <div class="time">6:15 AM</div>
+      <h3>Wake + Hydrate</h3>
+      <p><strong>Supplements:</strong> Electrolytes</p>
+      <p><strong>Food:</strong> 16–20 oz water, optional lemon</p>
+      <p>Get light exposure immediately. This anchors cortisol rhythm and helps morning energy.</p>
+    </div>
 
-<label>Energy</label>
-<select id="energy">
-<option></option>
-<option>Dead</option>
-<option>Low</option>
-<option>Okay</option>
-<option>Good</option>
-<option>Locked In</option>
-</select>
+    <div class="card">
+      <div class="time">6:30–7:00 AM</div>
+      <h3>Workout</h3>
+      <p><strong>Workout:</strong> Strength or cardio depending on day.</p>
+      <p>Keep it 30 minutes. Consistency beats destroying yourself.</p>
+    </div>
 
-<div id="checks"></div>
+    <div class="card">
+      <div class="time">7:30 AM</div>
+      <h3>Breakfast + AM Stack</h3>
+      <p><strong>Supplements:</strong> Zoloft, Adderall AM, Creatine, Omega-3, Multivitamin, CoQ10, Green Tea Extract.</p>
+      <p><strong>Food:</strong> Eggs, turkey sausage, Greek yogurt, oats, berries, toast, avocado, chia seeds, almond butter.</p>
+      <p><span class="bad">Remove:</span> NALT. <span class="gold">Limit:</span> Alpha-GPC max 1x/day. Caffeine max 150–200mg.</p>
+    </div>
 
-<div class="score" id="score">0%</div>
+    <div class="card">
+      <div class="time">8:30 AM</div>
+      <h3>Commute</h3>
+      <p>No extra caffeine. Hydrate. Get mentally ready for prime deal hours.</p>
+    </div>
 
-<button onclick="save()">Save</button>
+    <div class="card">
+      <div class="time">9:00 AM–12:00 PM</div>
+      <h3>Prime Deal Hours</h3>
+      <p>No stimulant stacking. Keep water nearby. Don’t chase energy with more pills.</p>
+    </div>
 
-</div>
-</section>
-<section id="auto" class="hidden">
-<div class="card">
-<h2>Auto Mode</h2>
-<p id="autoText">Loading...</p>
+    <div class="card">
+      <div class="time">12:15 PM</div>
+      <h3>Lunch</h3>
+      <p><strong>Supplements:</strong> Berberine 500mg</p>
+      <p><strong>Food:</strong> Protein + controlled carbs + vegetables.</p>
+      <p>Do not go too low-carb here or you will crash later.</p>
+    </div>
 
-<h3>Low Energy Protocol</h3>
-<p>
-Water + electrolytes.<br>
-Protein breakfast.<br>
-10-minute walk.<br>
-No caffeine after 2 PM.<br>
-Bed routine tonight.
-</p>
-</div>
-</section>
+    <div class="card">
+      <div class="time">12:30 PM</div>
+      <h3>Midday Focus</h3>
+      <p><strong>Supplements:</strong> Adderall PM if prescribed/needed.</p>
+      <p><span class="bad">No NALT.</span> Avoid extra caffeine unless absolutely necessary.</p>
+    </div>
 
-<section id="stack" class="hidden">
-<div class="card">
-<h2>Full Stack</h2>
+    <div class="card">
+      <div class="time">2:30 PM</div>
+      <h3>Crash Prevention</h3>
+      <p><strong>Food:</strong> Protein bar, cottage cheese, almonds, walnuts, beef jerky, Greek yogurt, string cheese.</p>
+      <p>Protein/fat snack prevents the 4PM crash.</p>
+    </div>
 
-<h3>Wake Up</h3>
-<label class="check"><input type="checkbox" id="water">16–20 oz water</label>
-<label class="check"><input type="checkbox" id="electrolytes">Low/no sugar electrolytes</label>
-<label class="check"><input type="checkbox" id="light">Morning light 5–10 minutes</label>
+    <div class="card">
+      <div class="time">5:30–6:30 PM</div>
+      <h3>Dealer Dinner</h3>
+      <p><strong>Supplements:</strong> Berberine 500mg</p>
+      <p><strong>Food:</strong> Chicken, fish, lean beef, tofu, broccoli, asparagus, spinach, sweet potato, rice, barley.</p>
+      <p>This is your most important fat-loss meal. Protein first. Keep carbs controlled.</p>
+    </div>
 
-<h3>Breakfast</h3>
-<label class="check"><input type="checkbox" id="proteinMeal">35–50g protein breakfast</label>
-<label class="check"><input type="checkbox" id="creatine">Creatine monohydrate</label>
-<label class="check"><input type="checkbox" id="d3k2">Vitamin D3/K2 with food</label>
-<label class="check"><input type="checkbox" id="omega">Omega-3 with food</label>
+    <div class="card">
+      <div class="time">8:30 PM</div>
+      <h3>Leave Work</h3>
+      <p>Start shutdown mode. No caffeine. No hype music. No work rage spiral.</p>
+    </div>
 
-<h3>Workday</h3>
-<label class="check"><input type="checkbox" id="lunchProtein">Protein lunch anchor</label>
-<label class="check"><input type="checkbox" id="snackProtein">Controlled protein snack</label>
-<label class="check"><input type="checkbox" id="caffeineCut">No caffeine after 2 PM</label>
-<label class="check"><input type="checkbox" id="waterGoalHit">80–120 oz water target</label>
+    <div class="card">
+      <div class="time">8:30–9:00 PM</div>
+      <h3>Drive Home</h3>
+      <p>Commute becomes decompression. Calm audio. Dim brightness. Tell your brain the workday is done.</p>
+    </div>
 
-<h3>Night</h3>
-<label class="check"><input type="checkbox" id="magnesium">Magnesium glycinate</label>
-<label class="check"><input type="checkbox" id="shutdown">Phone shutdown / no doom scrolling</label>
-<label class="check"><input type="checkbox" id="darkRoom">Dark, cold, quiet room</label>
-<label class="check"><input type="checkbox" id="bedtime">10:45 PM bed target</label>
+    <div class="card">
+      <div class="time">9:00 PM</div>
+      <h3>Arrive Home</h3>
+      <p><strong>If hungry:</strong> Greek yogurt, turkey slices, casein shake.</p>
+      <p><span class="bad">No junk. No carbs unless planned.</span></p>
+    </div>
 
-<button onclick="save()">Save Stack</button>
-</div>
-</section>
+    <div class="card">
+      <div class="time">9:15 PM</div>
+      <h3>Night Stack</h3>
+      <p><strong>Supplements:</strong> Magnesium Glycinate, Ashwagandha KSM-66, Glycine, Apigenin, Phosphatidylserine, Trazodone.</p>
+      <p>Main recovery, cortisol, and sleep stack.</p>
+    </div>
 
-<section id="food" class="hidden">
-<div class="card">
-<h2>Food Tracker</h2>
+    <div class="card">
+      <div class="time">10:15 PM</div>
+      <h3>Sleep</h3>
+      <p>Target 7.5–8 hours. Sleep is the fat-loss multiplier.</p>
+    </div>
 
-<label>Protein Goal</label>
-<input id="proteinGoal" value="180">
-
-<label>Water Goal oz</label>
-<input id="waterGoal" value="100">
-
-<h3>Breakfast</h3>
-<select id="breakfast">
-<option></option>
-<option>Eggs + Greek yogurt</option>
-<option>Protein shake + banana</option>
-<option>Omelet + fruit</option>
-<option>Cottage cheese + berries</option>
-<option>Egg sandwich + protein shake</option>
-</select>
-<input id="breakfastP" placeholder="Protein grams">
-
-<h3>Lunch</h3>
-<select id="lunch">
-<option></option>
-<option>Chicken bowl</option>
-<option>Turkey wrap</option>
-<option>Lean meat + rice</option>
-<option>Double protein salad</option>
-<option>Chipotle double meat bowl, no junk</option>
-</select>
-<input id="lunchP" placeholder="Protein grams">
-
-<h3>Snack</h3>
-<select id="snack">
-<option></option>
-<option>Protein shake</option>
-<option>Jerky</option>
-<option>Greek yogurt</option>
-<option>Cottage cheese</option>
-<option>Protein bar</option>
-</select>
-<input id="snackP" placeholder="Protein grams">
-
-<h3>Dinner</h3>
-<select id="dinner">
-<option></option>
-<option>Lean meat + vegetables</option>
-<option>Chicken + rice + vegetables</option>
-<option>Steak + salad</option>
-<option>Salmon + vegetables</option>
-<option>Turkey burger bowl</option>
-</select>
-<input id="dinnerP" placeholder="Protein grams">
-
-<label>Water oz</label>
-<input id="waterOz" placeholder="100">
-
-<label>Carbs Controlled?</label>
-<select id="carbs">
-<option>Yes</option>
-<option>No</option>
-</select>
-
-<label>Alcohol?</label>
-<select id="alcohol">
-<option>No</option>
-<option>Yes</option>
-</select>
-
-<h3>Total Protein</h3>
-<div class="score" id="proteinTotal">0g</div>
-
-<button onclick="save()">Save Food</button>
-</div>
+  </div>
 </section>
 
-  <section id="workout" class="hidden">
-<div class="card">
-<h2>Workout System</h2>
+<section id="stack">
+  <h2>Supplement Stack</h2>
 
-<h3>Mon / Wed / Fri — Strength</h3>
-<label class="check"><input type="checkbox" id="warmup">Warm-up: 5–10 minutes</label>
-<label class="check"><input type="checkbox" id="legs">Leg press or squat pattern — 3 sets</label>
-<label class="check"><input type="checkbox" id="push">Push movement — chest press / push-ups / machine press</label>
-<label class="check"><input type="checkbox" id="pull">Pull movement — row / pulldown</label>
-<label class="check"><input type="checkbox" id="hinge">Hinge movement — RDL / back extension / kettlebell deadlift</label>
-<label class="check"><input type="checkbox" id="core">Core finisher — plank / dead bug / farmer carry</label>
+  <div class="grid">
+    <div class="card">
+      <h3>Keep</h3>
+      <ul>
+        <li>Zoloft as prescribed</li>
+        <li>Adderall as prescribed</li>
+        <li>Creatine</li>
+        <li>Omega-3</li>
+        <li>Multivitamin</li>
+        <li>CoQ10</li>
+        <li>Berberine 500mg 2x/day</li>
+        <li>Electrolytes</li>
+        <li>Glycine</li>
+        <li>Apigenin</li>
+        <li>Phosphatidylserine</li>
+        <li>Trazodone as prescribed</li>
+      </ul>
+    </div>
 
-<h3>Tue / Thu — Cardio</h3>
-<label class="check"><input type="checkbox" id="zone2">30-minute Zone 2 walk / bike / incline treadmill</label>
-<label class="check"><input type="checkbox" id="postMealWalk">10-minute post-dinner walk</label>
+    <div class="card">
+      <h3>Add / Upgrade</h3>
+      <ul>
+        <li>Magnesium Glycinate 300–400mg at night</li>
+        <li>Ashwagandha KSM-66 600mg at night</li>
+        <li>Green Tea Extract EGCG 300–500mg in morning</li>
+        <li>Vitamin D3 + K2 if not already covered</li>
+        <li>Zinc 15–30mg if not already covered</li>
+      </ul>
+    </div>
 
-<h3>Weekend</h3>
-<label class="check"><input type="checkbox" id="weekendMove">Long walk / yard work / family activity / bonus lift</label>
+    <div class="card">
+      <h3>Remove / Limit</h3>
+      <ul>
+        <li><span class="bad">Remove NALT AM</span></li>
+        <li><span class="bad">Remove NALT PM</span></li>
+        <li>Alpha-GPC max 1x/day optional</li>
+        <li>Caffeine max 150–200mg</li>
+        <li>No caffeine after 2PM</li>
+        <li>No random testosterone boosters</li>
+      </ul>
+    </div>
+  </div>
 
-<label>Workout Notes</label>
-<textarea id="workoutNotes" placeholder="What did you do? How did your body feel?"></textarea>
-
-<button onclick="save()">Save Workout</button>
-</div>
+  <div class="danger">
+    <strong>Medication note:</strong> Because you use Zoloft, Adderall, and Trazodone, do not keep adding stimulant or mood-affecting supplements without clearing it with your prescriber.
+  </div>
 </section>
 
-<section id="plan" class="hidden">
-<div class="card">
-<h2>Dealer Schedule</h2>
-<p>
-<b>6:45 AM</b> Wake + water/electrolytes<br>
-<b>7:05 AM</b> Walk or lift<br>
-<b>8:10 AM</b> Protein breakfast<br>
-<b>9:00 AM–8:30 PM</b> Work<br>
-<b>12:30 PM</b> Protein lunch<br>
-<b>3:30 PM</b> Controlled snack<br>
-<b>6:30 PM</b> Light dinner/protein<br>
-<b>9:00 PM</b> Home + decompress<br>
-<b>10:45 PM</b> Bed target
-</p>
-</div>
+<section id="meals">
+  <h2>Dealer Meal System</h2>
 
-<div class="card">
-<h2>Weekly Review</h2>
-<label>Average Weight</label>
-<input id="avgWeight">
+  <div class="rule">
+    <strong>Core Rule:</strong> Protein first. Control carbs. Moderate fats. No junk stacking.
+  </div>
 
-<label>Waist Measurement</label>
-<input id="waist">
+  <div class="grid">
+    <div class="card">
+      <h3>Breakfast Options</h3>
+      <ul>
+        <li>Eggs + egg whites</li>
+        <li>Turkey sausage</li>
+        <li>Greek yogurt</li>
+        <li>Steel-cut oats</li>
+        <li>Whole-grain toast</li>
+        <li>Berries</li>
+        <li>Avocado</li>
+        <li>Chia seeds</li>
+        <li>Almond butter</li>
+      </ul>
+    </div>
 
-<label>Biggest Win</label>
-<textarea id="weeklyWin"></textarea>
+    <div class="card">
+      <h3>Lunch Orders</h3>
+      <ul>
+        <li>Chipotle/Qdoba: bowl, double chicken or steak, light rice, fajita veggies, pico, skip sour cream</li>
+        <li>Jimmy John’s/Sub shop: unwich or whole grain, double meat, avocado, no heavy mayo</li>
+        <li>Chick-fil-A: grilled nuggets or grilled sandwich, fruit or salad, skip fries unless planned</li>
+        <li>Restaurant: grilled protein, vegetables, side rice or potato, light oil/butter</li>
+      </ul>
+    </div>
 
-<label>Biggest Problem</label>
-<textarea id="weeklyProblem"></textarea>
+    <div class="card">
+      <h3>Office Snacks</h3>
+      <ul>
+        <li>Low-sugar protein bars</li>
+        <li>Beef jerky</li>
+        <li>Greek yogurt</li>
+        <li>Cottage cheese</li>
+        <li>Almonds or walnuts</li>
+        <li>String cheese</li>
+        <li>Protein shake</li>
+        <li>Apple + peanut butter</li>
+        <li>Hummus + carrots</li>
+      </ul>
+    </div>
 
-<label>Fix For Next Week</label>
-<textarea id="weeklyFix"></textarea>
-
-<button onclick="save()">Save Weekly Review</button>
-</div>
-
-<div class="card">
-<h2>Rules</h2>
-<p>
-Protein first.<br>
-No liquid calories.<br>
-10k steps target.<br>
-Lift 3x/week.<br>
-No caffeine after 2 PM.<br>
-Alcohol destroys fat-loss momentum.
-</p>
-</div>
-
-<div class="card">
-<h2>Notes / Accountability</h2>
-<textarea id="notes" placeholder="Cravings, stress, AA, marriage/accountability notes, wins, hard parts..."></textarea>
-<button onclick="save()">Save Notes</button>
-</div>
+    <div class="card">
+      <h3>Dinner Rules</h3>
+      <ul>
+        <li>Protein first</li>
+        <li>Vegetables always</li>
+        <li>Small carb if needed</li>
+        <li>No pasta-heavy meals</li>
+        <li>No fried food</li>
+        <li>No sugary drinks</li>
+        <li>After 9PM: protein only if needed</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
-<div class="nav">
-<button onclick="show('today')">Today</button>
-<button onclick="show('auto')">Auto</button>
-<button onclick="show('stack')">Stack</button>
-<button onclick="show('food')">Food</button>
-<button onclick="show('workout')">Lift</button>
-</div>
+<section id="workouts">
+  <h2>Workout Plan</h2>
 
-<script>
-const dailyItems=[
-"Workout or 10-min walk",
-"Protein hit",
-"Water hit",
-"Carbs controlled",
-"Steps moved",
-"No caffeine after 2 PM",
-"Night stack completed",
-"No alcohol"
-];
+  <div class="grid">
+    <div class="card">
+      <h3>Monday — Chest + Triceps</h3>
+      <ul>
+        <li>Incline dumbbell press — 4x8–12</li>
+        <li>Flat bench press — 3x8–10</li>
+        <li>Push-ups — 2 burnout sets</li>
+        <li>Tricep rope pushdown — 3x12</li>
+      </ul>
+      <p>Upper chest focus helps improve chest-fat appearance.</p>
+    </div>
 
-function $(id){return document.getElementById(id)}
+    <div class="card">
+      <h3>Tuesday — Fat Burn</h3>
+      <ul>
+        <li>Incline treadmill walk — 20–30 min</li>
+        <li>Optional light intervals</li>
+      </ul>
+    </div>
 
-function init(){
-$("date").valueAsDate=new Date();
+    <div class="card">
+      <h3>Wednesday — Back + Biceps</h3>
+      <ul>
+        <li>Lat pulldown — 4x10</li>
+        <li>Seated row — 3x10</li>
+        <li>Dumbbell curls — 3x12</li>
+      </ul>
+      <p>Wider back makes waist look smaller.</p>
+    </div>
 
-dailyItems.forEach((item,i)=>{
-$("checks").innerHTML += `
-<label class="check">
-<input type="checkbox" id="d${i}" onchange="calc()">
-<span>${item}</span>
-</label>`;
-});
+    <div class="card">
+      <h3>Thursday — Fat Burn</h3>
+      <ul>
+        <li>Incline treadmill walk — 20–30 min</li>
+      </ul>
+    </div>
 
-document.querySelectorAll("input,select,textarea").forEach(el=>{
-el.addEventListener("input",calc);
-el.addEventListener("change",calc);
-});
+    <div class="card">
+      <h3>Friday — Shoulders + Core</h3>
+      <ul>
+        <li>Shoulder press — 4x8–10</li>
+        <li>Lateral raises — 3x12</li>
+        <li>Hanging leg raises — 3 sets</li>
+        <li>Planks — 2 sets</li>
+      </ul>
+    </div>
 
-$("date").addEventListener("change",load);
-load();
-calc();
-}
+    <div class="card">
+      <h3>Saturday — Active Recovery</h3>
+      <ul>
+        <li>Walk</li>
+        <li>Yard work</li>
+        <li>Mobility</li>
+        <li>Light movement</li>
+      </ul>
+    </div>
 
-function show(id){
-document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
-$(id).classList.remove("hidden");
-}
+    <div class="card">
+      <h3>Sunday — Off + Review</h3>
+      <ul>
+        <li>Rest</li>
+        <li>Measure waist</li>
+        <li>Review weight average</li>
+        <li>Plan meals</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-function key(){
-return "phase2v4-"+$("date").value;
-}
+<section id="macros">
+  <h2>Macros + Cut Plan</h2>
 
-function save(){
-let data={};
+  <h3>Base Cut</h3>
+  <div class="macro-box">
+    <div class="macro"><strong>2200–2400</strong>Calories</div>
+    <div class="macro"><strong>200–220g</strong>Protein</div>
+    <div class="macro"><strong>150–180g</strong>Carbs</div>
+    <div class="macro"><strong>70–80g</strong>Fats</div>
+  </div>
 
-document.querySelectorAll("input,select,textarea").forEach(el=>{
-if(el.id){
-data[el.id]=el.type==="checkbox" ? el.checked : el.value;
-}
-});
+  <h3>Aggressive Cut — 3–4 Weeks Max</h3>
+  <div class="macro-box">
+    <div class="macro"><strong>1900–2100</strong>Calories</div>
+    <div class="macro"><strong>220–240g</strong>Protein</div>
+    <div class="macro"><strong>100–130g</strong>Carbs</div>
+    <div class="macro"><strong>60–70g</strong>Fats</div>
+  </div>
 
-localStorage.setItem(key(),JSON.stringify(data));
-calc();
-alert("Saved");
-}
+  <div class="danger">
+    <strong>Aggressive Cut Rules:</strong>
+    No alcohol. No cheat meals during the week. Carbs mainly breakfast and lunch.
+    Dinner = protein + vegetables. Night food = protein only if needed.
+  </div>
+</section>
 
-function load(){
-let raw=localStorage.getItem(key());
-if(!raw)return;
+<section id="kpi">
+  <h2>KPI Tracker</h2>
 
-let data=JSON.parse(raw);
+  <div class="grid">
+    <div class="card">
+      <h3>Track Weekly</h3>
+      <ul>
+        <li>Daily scale weight, use weekly average</li>
+        <li>Waist measurement 1x/week at belly button</li>
+        <li>Front and side mirror photos 2x/week</li>
+        <li>Energy score 1–10 daily</li>
+        <li>Compliance percentage: diet, workouts, steps, sleep</li>
+      </ul>
+    </div>
 
-Object.keys(data).forEach(id=>{
-let el=$(id);
-if(!el)return;
-if(el.type==="checkbox") el.checked=data[id];
-else el.value=data[id];
-});
+    <div class="card">
+      <h3>Adjustment Rules</h3>
+      <ul>
+        <li>If weight is not dropping, reduce calories by 200/day.</li>
+        <li>If energy crashes, aggressive cut may be too hard.</li>
+        <li>If waist is shrinking, do not change anything.</li>
+        <li>If workouts suffer badly, increase carbs around breakfast/lunch.</li>
+        <li>If sleep sucks, remove late caffeine/stimulation first.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-calc();
-}
+<section id="rules">
+  <h2>Hard Rules</h2>
 
-function clearDay(){
-if(confirm("Reset today?")){
-localStorage.removeItem(key());
-location.reload();
-}
-}
+  <div class="danger">No Primal Viking/testosterone booster.</div>
+  <div class="danger">No alcohol during aggressive cut.</div>
+  <div class="danger">No late-night carbs.</div>
+  <div class="danger">No caffeine after 2PM.</div>
+  <div class="danger">No NALT while using Adderall.</div>
+  <div class="rule">Protein target is non-negotiable.</div>
+  <div class="rule">Sleep is the fat-loss multiplier.</div>
+  <div class="rule">8,000–10,000 steps/day.</div>
+  <div class="rule">10–15 minute walk after dinner whenever possible.</div>
+  <div class="rule">If you go off plan, next meal is clean protein + vegetables. No “restart Monday” BS.</div>
+</section>
 
-function calc(){
-let done=0;
+</main>
 
-dailyItems.forEach((_,i)=>{
-let box=$("d"+i);
-if(box && box.checked) done++;
-});
-
-let score=Math.round((done/dailyItems.length)*100);
-if($("score")) $("score").innerText=score+"%";
-
-let protein=
-(parseInt($("breakfastP")?.value)||0)+
-(parseInt($("lunchP")?.value)||0)+
-(parseInt($("snackP")?.value)||0)+
-(parseInt($("dinnerP")?.value)||0);
-
-if($("proteinTotal")) $("proteinTotal").innerText=protein+"g";
-
-let sleep=parseFloat($("sleep")?.value)||0;
-let energy=$("energy")?.value||"";
-let alcohol=$("alcohol")?.value||"No";
-
-let auto="";
-
-if(alcohol==="Yes"){
-auto="Recovery mode: hydrate, hit protein, walk 10 minutes, no guilt spiral. Tomorrow is clean execution.";
-}
-else if(energy==="Dead" || sleep<5){
-auto="Low-energy day: minimum viable win only — water, electrolytes, protein, 10-minute walk, caffeine cutoff, early bed.";
-}
-else if(protein<120){
-auto="Protein is behind. Fix food first: add shake, Greek yogurt, jerky, or double protein meal.";
-}
-else if(score<60){
-auto="Execution is slipping. Don’t add complexity — finish the non-negotiables.";
-}
-else{
-auto="Full-send day. Hit workout, stack, protein, water, steps, and clean night routine.";
-}
-
-if($("autoText")) $("autoText").innerText=auto;
-}
-
-document.addEventListener("DOMContentLoaded",init);
-</script>
+<footer>
+  Dealer Cut System — Phase 2 Build
+</footer>
 
 </body>
 </html>
